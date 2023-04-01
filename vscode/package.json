@@ -1,0 +1,32 @@
+{
+    "name": "legas",
+    "displayName": "legacy software analysis",
+    "version": "0.0.1",
+    "publisher": "dponyatov",
+    "author": {
+        "name": "Dmitry Ponyatov",
+        "email": "dponyatov@gmail.com"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ponyatov/legas/tree/dev/vscode"
+    },
+    "homepage": "https://github.com/ponyatov/legas",
+    "icon": "logo.png",
+    "engines": {
+        "vscode": "^1.50.0"
+    },
+    "activationEvents": [
+        "onCommand:legas.hello",
+        "onStartupFinished"
+    ],
+    "main": "./extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "legas.hello",
+                "title": "legas Hello"
+            }
+        ]
+    }
+}

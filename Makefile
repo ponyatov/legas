@@ -13,6 +13,32 @@ DOC = $(CWD)/doc
 SRC = $(CWD)/src
 TMP = $(CWD)/tmp
 
+# tool
+CURL   = curl -L -o
+CF     = clang-format
+
+# src
+J += $(shell find src -type f -regex '.+.java$$')
+S += $(J) pom.xml
+F += $(shell find lib -type f -regex '.+.ini$$')
+S += $(F)
+
+# cfg
+CP += -cp target/classes
+
+# all
+.PHONY: all
+all:
+	mvn compile exec:java \
+		-Dexec.mainClass="dponyatov.App" \
+		-Dexec.args=$(F)
+
+# format
+.PHONY: format
+format: tmp/format_java
+tmp/format_java: $(J)
+	$(CF) -style=file -i $? && touch $@
+
 # doc
 .PHONY: doc
 doc:
@@ -39,11 +65,20 @@ GNU_Linux_updev:
 	sudo apt install -yu `cat apt.dev`
 
 .PHONY: gz
-gz:
+gz: src/main/antlr4/JavaLexer.g4 src/main/antlr4/JavaParser.g4 \
+	lib/JCad/README.md
+
+lib/JCad/README.md:
+	git clone https://github.com/andreia-oca/JCad.git lib/JCad
+
+src/main/antlr4/JavaLexer.g4:
+	$(CURL) $@ https://github.com/antlr/grammars-v4/raw/master/java/java/JavaLexer.g4
+src/main/antlr4/JavaParser.g4:
+	$(CURL) $@ https://github.com/antlr/grammars-v4/raw/master/java/java/JavaParser.g4
 
 # merge
 MERGE += README.md Makefile .gitignore apt.txt apt.dev LICENSE $(S)
-MERGE += .vscode bin doc inc src tmp
+MERGE += .vscode bin doc inc src tmp vscode
 
 .PHONY: dev
 dev:
@@ -70,3 +105,17 @@ zip:
 		--format zip \
 		--output $(TMP)/$(MODULE)_$(NOW)_$(REL).src.zip \
 	HEAD
+
+# maven
+.PHONY: new
+new:
+	mvn archetype:generate \
+		-DgroupId=dponyatov \
+		-DartifactId=$(MODULE) \
+		-DarchetypeArtifactId=maven-archetype-quickstart \
+		-DinteractiveMode=false
+
+.PHONY: version
+version:
+	mvn versions:set \
+		-DgenerateBackupPoms=false -DnewVersion=$(BRANCH)-$(REL)
