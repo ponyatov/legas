@@ -18,7 +18,7 @@ CURL   = curl -L -o
 CF     = clang-format
 
 # src
-J += $(shell find src -type f -regex '.+.java$$')
+J += $(shell find src -type f -regex '.+.java$$' -not -path "*/.antlr/*")
 S += $(J) pom.xml
 F += $(shell find lib -type f -regex '.+.ini$$')
 S += $(F)
@@ -29,9 +29,10 @@ CP += -cp target/classes
 # all
 .PHONY: all
 all:
-	mvn compile exec:java \
-		-Dexec.mainClass="dponyatov.App" \
-		-Dexec.args=$(F)
+	echo $(J)
+#	mvn compile exec:java \
+#		-Dexec.mainClass="dponyatov.App" \
+#		-Dexec.args=$(F)
 
 # format
 .PHONY: format

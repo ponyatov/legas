@@ -18,7 +18,8 @@
     },
     "activationEvents": [
         "onCommand:legas.hello",
-        "onStartupFinished"
+        "onStartupFinished",
+        "onLanguage:legas"
     ],
     "main": "./extension.js",
     "contributes": {
@@ -27,6 +28,36 @@
                 "command": "legas.hello",
                 "title": "legas Hello"
             }
+        ],
+        "languages": [
+            {
+                "id": "legas",
+                "aliases": [
+                    "legas"
+                ],
+                "extensions": [
+                    ".ini", ".f"
+                ]
+            }
+        ],
+        "grammars": [
+            {
+                "language": "legas",
+                "scopeName": "script.legas",
+                "path": "./legas.tmLanguage.json"
+            }
+        ],
+        "snippets": [
+            {
+                "language": "legas",
+                "path": "./snippets.json"
+            }
         ]
-    }
+    },
+    "categories": [
+        "Programming Languages",
+        "Debuggers",
+        "Notebooks",
+        "Snippets"
+    ]
 }

@@ -1,0 +1,23 @@
+{
+    "name": "legas",
+    "scopeName": "script.legas",
+    "fileTypes": [
+        "ini", "f"
+    ],
+    "patterns": [
+        {
+            "include": "#comment"
+        }
+    ],
+    "repository": {
+        "comment": {
+            "patterns": [
+                {
+                    "comment": "line comment",
+                    "match": "(#.*$)",
+                    "name": "comment.line.number-sign"
+                }
+            ]
+        }
+    }
+}

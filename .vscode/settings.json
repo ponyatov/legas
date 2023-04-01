@@ -33,4 +33,24 @@
     "explorer.autoReveal": false,
     "files.insertFinalNewline": true,
     "git.enabled": false,
+
+    // clang-format
+    "clang-format.executable":     "clang-format",
+    "clang-format.fallbackStyle":  "Google",
+    "clang-format.style":          "file",
+
+    // Java
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "[java]":{
+        "editor.defaultFormatter": "xaver.clang-format",
+        "editor.formatOnSave":     true
+    },
+    // ANTLR
+    "antlr4.generation": {
+        "outputDir": ".antlr",
+        "mode": "external",
+        "language": "Java",
+        "listeners": true,
+        "visitors": false
+    }
 }
