@@ -4,6 +4,9 @@ NOW    = $(shell date +%d%m%y)
 REL    = $(shell git rev-parse --short=4 HEAD)
 BRANCH = $(shell git rev-parse --abbrev-ref HEAD)
 
+# config
+TARGET = i686-linux-gnu
+
 # dirs
 CWD = $(CURDIR)
 BIN = $(CWD)/bin
@@ -14,20 +17,34 @@ TMP = $(CWD)/tmp
 # tool
 CURL = curl -L -o
 CF   = clang-format -style=file -i
+CC   = $(TARGET)-gcc
+CXX  = $(TARGET)-g++
+AS   = $(TARGET)-as
+LD   = $(TARGET)-ld
+OD   = $(TARGET)-objdump
 
 # src
 C += $(wildcard src/*.c*)
-H += $(wildcard src/*.h*)
+H += $(wildcard inc/*.h*)
+
+# pkg
+OBJ = $(subst src/,tmp/,$(subst .cpp,.objdump,$(C)))
 
 # all
 .PHONY: all
-all:
+all: $(OBJ)
 
 # format
 .PHONY: format
 format: tmp/format_cpp
 tmp/format_cpp: $(C) $(H)
 	$(CF) $? && touch $@
+
+# rule
+bin/%.o: src/%.cpp $(H)
+	$(CXX) $(CFLAGS) -o $@ -c $<
+tmp/%.objdump: bin/%.o
+	$(OD) -x $< > $@
 
 # doc
 .PHONY: doc
