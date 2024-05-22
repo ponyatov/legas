@@ -10,12 +10,16 @@ include   hw/$(HW).mk
 include  cpu/$(CPU).mk
 include arch/$(ARCH).mk
 
+# version
+LINUX_VER = 6.6.31
+
 # dirs
 CWD = $(CURDIR)
 BIN = $(CWD)/bin
 DOC = $(CWD)/doc
 SRC = $(CWD)/src
 TMP = $(CWD)/tmp
+GZ  = $(HOME)/gz
 
 # tool
 CURL = curl -L -o
@@ -30,16 +34,22 @@ OD   = $(TARGET)-objdump
 C += $(wildcard src/*.c*)
 H += $(wildcard inc/*.h*)
 
-# pkg
-OBJ  = $(subst src/,bin/,$(subst .cpp,.o,$(C)))
-DUMP = $(OBJ)
+# package
+LINUX    = linux-$(LINUX_VER)
+LINUX_GZ = $(LINUX).tar.xz
+
+# cfg
+LDFLAGS += -T lib/$(HW).ld
 
 # all
+OBJ  = $(subst src/,bin/,$(subst .cpp,.o,$(C)))
+DUMP = $(subst bin/,tmp/,$(subst .o,.objdump,$(OBJ))) tmp/$(MODULE).objdump
+
 .PHONY: all
-all: fw/$(MODULE).kernel
-	$(QEMU) $(QEMU_CFG) -kernel
+all: fw/$(MODULE).kernel $(DUMP)
+	$(QEMU) $(QEMU_CPU) $(QEMU_RAM) $(QEMU_CFG) -kernel $<
 fw/$(MODULE).kernel: $(OBJ)
-	$(CXX) -o $@ $^
+	$(LD) $(LDFLAGS) -o $@ $^
 
 # format
 .PHONY: format
@@ -51,6 +61,8 @@ tmp/format_cpp: $(C) $(H)
 bin/%.o: src/%.cpp $(H)
 	$(CXX) $(CFLAGS) -o $@ -c $<
 tmp/%.objdump: bin/%.o
+	$(OD) -x $< > $@
+tmp/%.objdump: fw/%.kernel
 	$(OD) -x $< > $@
 
 # doc
@@ -64,5 +76,9 @@ install: doc gz ref
 update:
 	sudo apt update
 	sudo apt install -uy `cat apt.txt`
-gz:
+gz: \
+	$(GZ)/$(LINUX_GZ)
 ref:
+
+$(GZ)/$(LINUX_GZ):
+	$(CURL) $@ https://cdn.kernel.org/pub/linux/kernel/v6.x/$(LINUX_GZ)
