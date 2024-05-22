@@ -5,7 +5,10 @@ REL    = $(shell git rev-parse --short=4 HEAD)
 BRANCH = $(shell git rev-parse --abbrev-ref HEAD)
 
 # config
-TARGET = i686-linux-gnu
+HW = qemu386
+include   hw/$(HW).mk
+include  cpu/$(CPU).mk
+include arch/$(ARCH).mk
 
 # dirs
 CWD = $(CURDIR)
@@ -28,11 +31,15 @@ C += $(wildcard src/*.c*)
 H += $(wildcard inc/*.h*)
 
 # pkg
-OBJ = $(subst src/,tmp/,$(subst .cpp,.objdump,$(C)))
+OBJ  = $(subst src/,bin/,$(subst .cpp,.o,$(C)))
+DUMP = $(OBJ)
 
 # all
 .PHONY: all
-all: $(OBJ)
+all: fw/$(MODULE).kernel
+	$(QEMU) $(QEMU_CFG) -kernel
+fw/$(MODULE).kernel: $(OBJ)
+	$(CXX) -o $@ $^
 
 # format
 .PHONY: format
