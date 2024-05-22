@@ -65,6 +65,9 @@ tmp/%.objdump: bin/%.o
 tmp/%.objdump: fw/%.kernel
 	$(OD) -x $< > $@
 
+ref/%/README: $(GZ)/%.tar.xz
+	tar -C ref -xf $< && touch $@
+
 # doc
 .PHONY: doc
 doc:
@@ -78,7 +81,8 @@ update:
 	sudo apt install -uy `cat apt.txt`
 gz: \
 	$(GZ)/$(LINUX_GZ)
-ref:
+ref: \
+	ref/$(LINUX)/README
 
 $(GZ)/$(LINUX_GZ):
 	$(CURL) $@ https://cdn.kernel.org/pub/linux/kernel/v6.x/$(LINUX_GZ)
