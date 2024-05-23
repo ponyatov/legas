@@ -35,10 +35,17 @@ C += $(wildcard src/*.c*)
 H += $(wildcard inc/*.h*)
 
 # package
-LINUX    = linux-$(LINUX_VER)
-LINUX_GZ = $(LINUX).tar.xz
+LINUX     = linux-$(LINUX_VER)
+LINUX_GZ  = $(LINUX).tar.xz
+LINUX_URL = https://cdn.kernel.org/pub/linux/kernel/v6.x
+
+STRAIL_VER = 2021.4.19
+STRAIL     = Sourcetrail_$(STRAIL_VER)
+STRAIL_GZ  = $(subst .,_,$(STRAIL))_Linux_64bit.tar.gz
+STRAIL_URL = https://github.com/CoatiSoftware/Sourcetrail/releases/download
 
 # cfg
+CFLAGS  += -Iinc -Itmp -march=$(CPU)
 LDFLAGS += -T lib/$(HW).ld
 
 # all
@@ -80,9 +87,13 @@ update:
 	sudo apt update
 	sudo apt install -uy `cat apt.txt`
 gz: \
-	$(GZ)/$(LINUX_GZ)
+	$(GZ)/$(LINUX_GZ) \
+	$(GZ)/$(STRAIL_GZ)
 ref: \
 	ref/$(LINUX)/README
 
 $(GZ)/$(LINUX_GZ):
-	$(CURL) $@ https://cdn.kernel.org/pub/linux/kernel/v6.x/$(LINUX_GZ)
+	$(CURL) $@ $(LINUX_URL)/$(LINUX_GZ)
+
+$(GZ)/$(STRAIL_GZ):
+	$(CURL) $@ $(STRAIL_URL)/$(STRAIL_VER)/$(STRAIL_GZ)
