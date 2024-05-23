@@ -24,6 +24,7 @@ GZ  = $(HOME)/gz
 # tool
 CURL = curl -L -o
 CF   = clang-format -style=file -i
+ST   = /opt/Sourcetrail/bin/sourcetrail
 CC   = $(TARGET)-gcc
 CXX  = $(TARGET)-g++
 AS   = $(TARGET)-as
@@ -79,6 +80,8 @@ tmp/%.objdump: fw/%.kernel
 
 ref/%/README: $(GZ)/%.tar.xz
 	tar -C ref -xf $< && touch $@
+ref/%/README: $(GZ)/%.tar.gz
+	tar -C ref -xf $< && touch $@
 
 # doc
 .PHONY: doc
@@ -97,15 +100,16 @@ install: doc gz ref
 update:
 	sudo apt update
 	sudo apt install -uy `cat apt.txt`
-gz: \
-	$(GZ)/$(LINUX_GZ) $(GZ)/$(NEWLIB_GZ) \
-	$(GZ)/$(STRAIL_GZ)
+gz: $(ST) \
+	$(GZ)/$(LINUX_GZ) $(GZ)/$(NEWLIB_GZ)
 ref: \
-	ref/$(LINUX)/README
+	ref/$(LINUX)/README ref/$(NEWLIB)/README
 
 $(GZ)/$(LINUX_GZ):
 	$(CURL) $@ $(LINUX_URL)/$(LINUX_GZ)
 
+$(ST): $(GZ)/$(STRAIL_GZ)
+	cd /opt ; sudo tar zx < $< && touch $@
 $(GZ)/$(STRAIL_GZ):
 	$(CURL) $@ $(STRAIL_URL)/$(STRAIL_VER)/$(STRAIL_GZ)
 
