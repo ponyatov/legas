@@ -12,6 +12,10 @@
                 </target>
                 <target_options_enabled>1</target_options_enabled>
             </cross_compilation>
+            <exclude_filters>
+                <exclude_filter>ref</exclude_filter>
+                <exclude_filter>tmp</exclude_filter>
+            </exclude_filters>
             <name>os</name>
             <pch_flags>
                 <use_compiler_flags>1</use_compiler_flags>
@@ -24,6 +28,7 @@
             <source_paths>
                 <source_path>inc</source_path>
                 <source_path>src</source_path>
+                <source_path>lib</source_path>
             </source_paths>
             <status>enabled</status>
             <type>C++ Source Group</type>
