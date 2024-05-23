@@ -44,6 +44,11 @@ STRAIL     = Sourcetrail_$(STRAIL_VER)
 STRAIL_GZ  = $(subst .,_,$(STRAIL))_Linux_64bit.tar.gz
 STRAIL_URL = https://github.com/CoatiSoftware/Sourcetrail/releases/download
 
+NEWLIB_VER = 4.4.0.20231231
+NEWLIB     = newlib-$(NEWLIB_VER)
+NEWLIB_GZ  = $(NEWLIB).tar.gz
+NEWLIB_URL = ftp://sourceware.org/pub/newlib
+
 # cfg
 CFLAGS  += -Iinc -Itmp -march=$(CPU)
 LDFLAGS += -T lib/$(HW).ld
@@ -82,7 +87,7 @@ doc: \
 
 doc/libc.pdf:
 	$(CURL) $@ ftp://sourceware.org/pub/newlib/libc.pdf
-doc/libc.pdf:
+doc/libm.pdf:
 	$(CURL) $@ ftp://sourceware.org/pub/newlib/libm.pdf
 
 # install
@@ -93,7 +98,7 @@ update:
 	sudo apt update
 	sudo apt install -uy `cat apt.txt`
 gz: \
-	$(GZ)/$(LINUX_GZ) \
+	$(GZ)/$(LINUX_GZ) $(GZ)/$(NEWLIB_GZ) \
 	$(GZ)/$(STRAIL_GZ)
 ref: \
 	ref/$(LINUX)/README
@@ -103,3 +108,6 @@ $(GZ)/$(LINUX_GZ):
 
 $(GZ)/$(STRAIL_GZ):
 	$(CURL) $@ $(STRAIL_URL)/$(STRAIL_VER)/$(STRAIL_GZ)
+
+$(GZ)/$(NEWLIB_GZ):
+	$(CURL) $@ $(NEWLIB_URL)/$(NEWLIB_GZ)
