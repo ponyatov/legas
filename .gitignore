@@ -4,4 +4,7 @@
 
 /docs/
 
+*.srctrlbm
+*.srctrldb
+
 !.gitignore
