@@ -77,7 +77,13 @@ ref/%/README: $(GZ)/%.tar.xz
 
 # doc
 .PHONY: doc
-doc:
+doc: \
+	doc/libc.pdf doc/libm.pdf
+
+doc/libc.pdf:
+	$(CURL) $@ ftp://sourceware.org/pub/newlib/libc.pdf
+doc/libc.pdf:
+	$(CURL) $@ ftp://sourceware.org/pub/newlib/libm.pdf
 
 # install
 .PHONY: install update gz ref
