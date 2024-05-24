@@ -1,12 +1,16 @@
 OUTPUT_FORMAT("elf32-i386")
 OUTPUT_ARCH(i386)
-ENTRY(start)
+ENTRY(kernel)
 
 SECTIONS
 {
-   . = 0x10000;
-   .text : { *(.text) }
-   . = 0x8000000;
-   .data : { *(.data) }
-   .bss  : { *(.bss) }
+   . = 0xB8000;
+   .vga : { *(.vga) }
+    . = 1M;
+   .multiboot BLOCK(4K) : ALIGN(4K) { *(.multiboot) }
+   .text BLOCK(4K) : ALIGN(4K) { *(.text) }
+   .rodata BLOCK(4K) : ALIGN(4K) { *(.rodata) }
+   .data BLOCK(4K) : ALIGN(4K) { *(.data) }
+   .bss  BLOCK(4K) : ALIGN(4K) { *(COMMON) *(.bss) }
+   /* /DISCARD/ BLOCK(4K) : ALIGN(4K) { *(.comment) } */
 }

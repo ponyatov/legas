@@ -54,8 +54,9 @@ NEWLIB_GZ  = $(NEWLIB).tar.gz
 NEWLIB_URL = ftp://sourceware.org/pub/newlib
 
 # cfg
-CFLAGS  += -Iinc -Itmp -march=$(CPU)
-LDFLAGS += -T lib/$(HW).ld
+GCCFLAGS += -nostdlib
+CFLAGS   += -Iinc -Itmp -march=$(CPU) -ffreestanding
+LDFLAGS  += -T lib/$(HW).ld
 
 # all
 OBJ  = $(subst src/,bin/,$(subst .cpp,.o,$(C)))
@@ -64,8 +65,6 @@ DUMP = $(subst bin/,tmp/,$(subst .o,.objdump,$(OBJ))) tmp/$(MODULE).objdump
 .PHONY: all
 all: fw/$(MODULE).kernel $(DUMP)
 	$(QEMU) $(QEMU_CPU) $(QEMU_RAM) $(QEMU_CFG) -kernel $<
-fw/$(MODULE).kernel: $(OBJ)
-	$(LD) $(LDFLAGS) -o $@ $^
 
 .PHONY: st
 st: $(ST)
@@ -83,7 +82,10 @@ tmp/format_cpp: $(C) $(H)
 
 # rule
 bin/%.o: src/%.cpp $(H)
-	$(CXX) $(CFLAGS) -o $@ -c $<
+	$(CXX) $(CFLAGS) $(GCCFLAGS) -o $@ -c $<
+fw/$(MODULE).kernel: $(OBJ) lib/$(HW).ld
+	$(LD) $(LDFLAGS) $(GCCFLAGS) -o $@ $(OBJ)
+
 tmp/%.objdump: bin/%.o
 	$(OD) -x $< > $@
 tmp/%.objdump: fw/%.kernel

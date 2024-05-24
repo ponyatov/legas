@@ -1,6 +1,6 @@
 #include "hpp.hpp"
 
-void start() {
+void kernel() {
     init();
     for (;;)
         ;
