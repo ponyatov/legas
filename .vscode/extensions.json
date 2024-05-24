@@ -11,6 +11,8 @@
         // formatters
         "xaver.clang-format",
         "foxundermoon.shell-format",
+        // legacy
+        "astallinger.sourcetrail",
         // C++
         "ms-vscode.cpptools",
         "jeff-hykin.better-cpp-syntax",

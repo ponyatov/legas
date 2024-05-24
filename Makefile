@@ -64,6 +64,10 @@ all: fw/$(MODULE).kernel $(DUMP)
 fw/$(MODULE).kernel: $(OBJ)
 	$(LD) $(LDFLAGS) -o $@ $^
 
+.PHONY: st
+st: $(ST)
+	$^ $(MODULE).srctrlprj &
+
 # format
 .PHONY: format
 format: tmp/format_cpp
