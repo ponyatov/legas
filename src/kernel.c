@@ -1,4 +1,4 @@
-#include "hpp.hpp"
+#include "hpp.h"
 
 void kernel() {
     init();

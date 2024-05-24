@@ -22,5 +22,3 @@ struct __attribute__((packed, aligned(4))) Multiboot {
     uint32_t height;
     uint32_t depth;
 };
-
-extern Multiboot multiboot;

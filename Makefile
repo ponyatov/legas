@@ -59,7 +59,7 @@ CFLAGS   += -Iinc -Itmp -march=$(CPU) -ffreestanding
 LDFLAGS  += -T lib/$(HW).ld
 
 # all
-OBJ  = $(subst src/,bin/,$(subst .cpp,.o,$(C)))
+OBJ  = $(subst src/,bin/,$(addsuffix .o,$(basename $(C))))
 DUMP = $(subst bin/,tmp/,$(subst .o,.objdump,$(OBJ))) tmp/$(MODULE).objdump
 
 .PHONY: all run
@@ -84,6 +84,8 @@ tmp/format_cpp: $(C) $(H)
 # rule
 bin/%.o: src/%.cpp $(H)
 	$(CXX) $(CFLAGS) $(GCCFLAGS) -o $@ -c $<
+bin/%.o: src/%.c $(H)
+	$(CC)  $(CFLAGS) $(GCCFLAGS) -o $@ -c $<
 fw/$(MODULE).kernel: $(OBJ) lib/$(HW).ld
 	$(LD) $(LDFLAGS) $(GCCFLAGS) -o $@ $(OBJ)
 
