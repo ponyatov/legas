@@ -21,5 +21,9 @@
         "daohong-emilio.yash",
         // low-level
         "zixuanwang.linkerscript",
+        // Rust
+        "rust-lang.rust-analyzer",
+        "tamasfe.even-better-toml",
+        "vadimcn.vscode-lldb",
     ]
 }

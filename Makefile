@@ -20,16 +20,19 @@ DOC = $(CWD)/doc
 SRC = $(CWD)/src
 TMP = $(CWD)/tmp
 GZ  = $(HOME)/gz
+CAR = $(HOME)/.cargo
 
 # tool
-CURL = curl -L -o
-CF   = clang-format -style=file -i
-ST   = /opt/Sourcetrail/bin/sourcetrail
-CC   = $(TARGET)-gcc
-CXX  = $(TARGET)-g++
-AS   = $(TARGET)-as
-LD   = $(TARGET)-ld
-OD   = $(TARGET)-objdump
+CURL   = curl -L -o
+CF     = clang-format -style=file -i
+ST     = /opt/Sourcetrail/bin/sourcetrail
+CC     = $(TARGET)-gcc
+CXX    = $(TARGET)-g++
+AS     = $(TARGET)-as
+LD     = $(TARGET)-ld
+OD     = $(TARGET)-objdump
+RUSTUP = $(CAR)/bin/rustup
+CARGO  = $(CAR)/bin/cargo
 
 # src
 C += $(wildcard src/*.c*)
@@ -68,6 +71,10 @@ fw/$(MODULE).kernel: $(OBJ)
 st: $(ST)
 	$^ $(MODULE).srctrlprj &
 
+.PHONY: rust
+rust: $(CARGO)
+	$(CARGO) run
+
 # format
 .PHONY: format
 format: tmp/format_cpp
@@ -99,7 +106,7 @@ doc/libm.pdf:
 
 # install
 .PHONY: install update gz ref
-install: doc gz ref
+install: doc gz ref $(RUSTUP)
 	$(MAKE) update
 update:
 	sudo apt update
@@ -122,3 +129,6 @@ $(GZ)/$(NEWLIB_GZ):
 
 ref/syslinux/README:
 	git clone --depth 1 http://repo.or.cz/syslinux.git ref/syslinux
+
+$(RUSTUP) $(CARGO):
+	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh

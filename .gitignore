@@ -7,4 +7,6 @@
 *.srctrlbm
 *.srctrldb
 
+/target/
+
 !.gitignore
