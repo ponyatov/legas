@@ -97,12 +97,14 @@ ref/%/README: $(GZ)/%.tar.gz
 # doc
 .PHONY: doc
 doc: \
-	doc/libc.pdf doc/libm.pdf
+	doc/libc.pdf doc/libm.pdf doc/engler95exokernel.pdf
 
 doc/libc.pdf:
 	$(CURL) $@ ftp://sourceware.org/pub/newlib/libc.pdf
 doc/libm.pdf:
 	$(CURL) $@ ftp://sourceware.org/pub/newlib/libm.pdf
+doc/engler95exokernel.pdf:
+	$(CURL) $@ https://pdos.csail.mit.edu/6.828/2008/readings/engler95exokernel.pdf
 
 # install
 .PHONY: install update gz ref
