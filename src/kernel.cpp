@@ -2,6 +2,7 @@
 
 void kernel() {
     init();
+    vga();
     for (;;)
         ;
 }

@@ -6,8 +6,6 @@
 
 #pragma once
 
-#include <cstdint>
-
 struct __attribute__((packed, aligned(4))) Multiboot {
     uint32_t magic;     // required
     uint32_t flags;     // required

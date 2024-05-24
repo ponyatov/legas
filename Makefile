@@ -62,8 +62,9 @@ LDFLAGS  += -T lib/$(HW).ld
 OBJ  = $(subst src/,bin/,$(subst .cpp,.o,$(C)))
 DUMP = $(subst bin/,tmp/,$(subst .o,.objdump,$(OBJ))) tmp/$(MODULE).objdump
 
-.PHONY: all
+.PHONY: all run
 all: fw/$(MODULE).kernel $(DUMP)
+run: fw/$(MODULE).kernel $(DUMP)
 	$(QEMU) $(QEMU_CPU) $(QEMU_RAM) $(QEMU_CFG) -kernel $<
 
 .PHONY: st

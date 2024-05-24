@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 #include "config.hpp"
 #include "boot.hpp"
 #include "kernel.hpp"
