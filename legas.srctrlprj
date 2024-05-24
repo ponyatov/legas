@@ -23,6 +23,7 @@
                 <source_path>ref/linux-6.6.31/arch/x86/boot</source_path>
                 <source_path>ref/linux-6.6.31/include</source_path>
                 <source_path>ref/linux-6.6.31/arch/x86/include</source_path>
+                <source_path>ref/linux-6.6.31/tools/include</source_path>
             </source_paths>
             <status>enabled</status>
             <type>C Source Group</type>

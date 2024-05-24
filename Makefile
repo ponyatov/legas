@@ -107,7 +107,7 @@ update:
 gz: $(ST) \
 	$(GZ)/$(LINUX_GZ) $(GZ)/$(NEWLIB_GZ)
 ref: \
-	ref/$(LINUX)/README ref/$(NEWLIB)/README
+	ref/$(LINUX)/README ref/$(NEWLIB)/README ref/syslinux/README
 
 $(GZ)/$(LINUX_GZ):
 	$(CURL) $@ $(LINUX_URL)/$(LINUX_GZ)
@@ -119,3 +119,6 @@ $(GZ)/$(STRAIL_GZ):
 
 $(GZ)/$(NEWLIB_GZ):
 	$(CURL) $@ $(NEWLIB_URL)/$(NEWLIB_GZ)
+
+ref/syslinux/README:
+	git clone --depth 1 http://repo.or.cz/syslinux.git ref/syslinux
