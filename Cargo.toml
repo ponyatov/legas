@@ -4,10 +4,12 @@ version       = "0.0.1"
 description   = "learn low-level Rust"
 authors       = ["Dmitry Ponyatov <dponyatov@gmail.com>"]
 license       = "MIT"
-license-file  = "LICENSE"
 documentation = "https://os.phil-opp.com/"
 repository    = "https://github.com/ponyatov/legas/blob/shadow/Cargo.toml"
 readme        = "README.md"
 edition       = "2021"
 
 [dependencies]
+
+[profile.dev]
+panic = "abort"

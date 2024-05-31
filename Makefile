@@ -73,8 +73,9 @@ st: $(ST)
 	$^ $(MODULE).srctrlprj &
 
 .PHONY: rust
-rust: $(CARGO) $(R)
-	$(CARGO) run
+rust: target/debug/$(MODULE)
+target/debug/$(MODULE): $(CARGO) $(R)
+	clear ; $(CARGO) build
 
 # format
 .PHONY: format
