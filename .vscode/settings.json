@@ -20,7 +20,7 @@
         "ref/**": true,
     },
     "files.associations": {
-        "/*.json": "jsonc",
+        "*.json": "jsonc",
     },
 
     // editor

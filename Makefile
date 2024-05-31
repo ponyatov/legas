@@ -121,6 +121,7 @@ install: doc gz ref $(RUSTUP)
 	$(MAKE) update
 	$(RUSTUP) component add rustfmt
 	$(RUSTUP) target add x86_64-unknown-none
+	rustup target add i686-unknown-none
 
 update:
 	sudo apt update
