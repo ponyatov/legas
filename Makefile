@@ -73,9 +73,7 @@ st: $(ST)
 	$^ $(MODULE).srctrlprj &
 
 .PHONY: rust
-rust: tmp/$(MODULE).rust.objdump
-tmp/$(MODULE).rust.objdump: bin/$(MODULE)
-	objdump -x $< > $@
+rust: tmp/$(MODULE).objdump
 bin/$(MODULE): $(CARGO) $(R)
 	clear ; $(CARGO) build --out-dir=$(dir $@) -Z unstable-options
 
@@ -96,6 +94,8 @@ fw/$(MODULE).kernel: $(OBJ) lib/$(HW).ld
 	$(LD) $(LDFLAGS) $(GCCFLAGS) -o $@ $(OBJ)
 
 tmp/%.objdump: bin/%.o
+	$(OD) -x $< > $@
+tmp/%.objdump: bin/%
 	$(OD) -x $< > $@
 tmp/%.objdump: fw/%.kernel
 	$(OD) -x $< > $@
