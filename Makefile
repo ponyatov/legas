@@ -37,6 +37,7 @@ CARGO  = $(CAR)/bin/cargo
 # src
 C += $(wildcard src/*.c*)
 H += $(wildcard inc/*.h*)
+R += $(wildcard src/*.rs*)
 
 # package
 LINUX     = linux-$(LINUX_VER)
@@ -72,18 +73,16 @@ st: $(ST)
 	$^ $(MODULE).srctrlprj &
 
 .PHONY: rust
-rust: $(CARGO)
+rust: $(CARGO) $(R)
 	$(CARGO) run
-
-.PHONY: st
-st: $(ST)
-	$< $(MODULE).srctrlprj
 
 # format
 .PHONY: format
-format: tmp/format_cpp
+format: tmp/format_cpp tmp/format_rs
 tmp/format_cpp: $(C) $(H)
 	$(CF) $? && touch $@
+tmp/format_rs: $(R)
+	$(CARGO) fmt && touch $@
 
 # rule
 bin/%.o: src/%.cpp $(H)
@@ -119,6 +118,7 @@ doc/engler95exokernel.pdf:
 .PHONY: install update gz ref
 install: doc gz ref $(RUSTUP)
 	$(MAKE) update
+	$(RUSTUP) component add rustfmt
 update:
 	sudo apt update
 	sudo apt install -uy `cat apt.txt`
