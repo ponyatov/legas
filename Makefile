@@ -73,9 +73,11 @@ st: $(ST)
 	$^ $(MODULE).srctrlprj &
 
 .PHONY: rust
-rust: target/debug/$(MODULE)
-target/debug/$(MODULE): $(CARGO) $(R)
-	clear ; $(CARGO) build
+rust: tmp/$(MODULE).rust.objdump
+tmp/$(MODULE).rust.objdump: bin/$(MODULE)
+	objdump -x $< > $@
+bin/$(MODULE): $(CARGO) $(R)
+	clear ; $(CARGO) build --out-dir=$(dir $@) -Z unstable-options
 
 # format
 .PHONY: format
