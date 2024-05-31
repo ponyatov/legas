@@ -1,0 +1,8 @@
+.git/**
+rc
+tmp/**
+bin/**
+fw/**
+.obsidian/**
+**/node_modules/**
+target/**
