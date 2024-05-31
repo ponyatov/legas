@@ -6,6 +6,10 @@ build-std-features = ["compiler-builtins-mem"]
 
 [build]
 # points to file in project root
+# https://stackoverflow.com/a/67902310/2134384
+# https://github.com/rust-lang/rfcs/blob/master/text/0131-target-specification.md
+# https://llvm.org/docs/LangRef.html#data-layout
+# "data-layout": "e-m:e-i32:32-f80:128-n8:16:32-S128-p:32:32",
 target = "i686-unknown-none.json"
 
 [target.i686-unknown-none]
