@@ -20,16 +20,19 @@ DOC = $(CWD)/doc
 SRC = $(CWD)/src
 TMP = $(CWD)/tmp
 GZ  = $(HOME)/gz
+CAR = $(HOME)/.cargo
 
 # tool
-CURL = curl -L -o
-CF   = clang-format -style=file -i
-ST   = /opt/Sourcetrail/bin/sourcetrail
-CC   = $(TARGET)-gcc
-CXX  = $(TARGET)-g++
-AS   = $(TARGET)-as
-LD   = $(TARGET)-ld
-OD   = $(TARGET)-objdump
+CURL   = curl -L -o
+CF     = clang-format -style=file -i
+ST     = /opt/Sourcetrail/bin/sourcetrail
+CC     = $(TARGET)-gcc
+CXX    = $(TARGET)-g++
+AS     = $(TARGET)-as
+LD     = $(TARGET)-ld
+OD     = $(TARGET)-objdump
+RUSTUP = $(CAR)/bin/rustup
+CARGO  = $(CAR)/bin/cargo
 
 # src
 C += $(wildcard src/*.c*)
@@ -51,18 +54,26 @@ NEWLIB_GZ  = $(NEWLIB).tar.gz
 NEWLIB_URL = ftp://sourceware.org/pub/newlib
 
 # cfg
-CFLAGS  += -Iinc -Itmp -march=$(CPU)
-LDFLAGS += -T lib/$(HW).ld
+GCCFLAGS += -nostdlib
+CFLAGS   += -Iinc -Itmp -march=$(CPU) -ffreestanding
+LDFLAGS  += -T lib/$(HW).ld
 
 # all
-OBJ  = $(subst src/,bin/,$(subst .cpp,.o,$(C)))
+OBJ  = $(subst src/,bin/,$(addsuffix .o,$(basename $(C))))
 DUMP = $(subst bin/,tmp/,$(subst .o,.objdump,$(OBJ))) tmp/$(MODULE).objdump
 
-.PHONY: all
+.PHONY: all run
 all: fw/$(MODULE).kernel $(DUMP)
+run: fw/$(MODULE).kernel $(DUMP)
 	$(QEMU) $(QEMU_CPU) $(QEMU_RAM) $(QEMU_CFG) -kernel $<
-fw/$(MODULE).kernel: $(OBJ)
-	$(LD) $(LDFLAGS) -o $@ $^
+
+.PHONY: st
+st: $(ST)
+	$^ $(MODULE).srctrlprj &
+
+.PHONY: rust
+rust: $(CARGO)
+	$(CARGO) run
 
 .PHONY: st
 st: $(ST)
@@ -76,7 +87,12 @@ tmp/format_cpp: $(C) $(H)
 
 # rule
 bin/%.o: src/%.cpp $(H)
-	$(CXX) $(CFLAGS) -o $@ -c $<
+	$(CXX) $(CFLAGS) $(GCCFLAGS) -o $@ -c $<
+bin/%.o: src/%.c $(H)
+	$(CC)  $(CFLAGS) $(GCCFLAGS) -o $@ -c $<
+fw/$(MODULE).kernel: $(OBJ) lib/$(HW).ld
+	$(LD) $(LDFLAGS) $(GCCFLAGS) -o $@ $(OBJ)
+
 tmp/%.objdump: bin/%.o
 	$(OD) -x $< > $@
 tmp/%.objdump: fw/%.kernel
@@ -90,16 +106,18 @@ ref/%/README: $(GZ)/%.tar.gz
 # doc
 .PHONY: doc
 doc: \
-	doc/libc.pdf doc/libm.pdf
+	doc/libc.pdf doc/libm.pdf doc/engler95exokernel.pdf
 
 doc/libc.pdf:
 	$(CURL) $@ ftp://sourceware.org/pub/newlib/libc.pdf
 doc/libm.pdf:
 	$(CURL) $@ ftp://sourceware.org/pub/newlib/libm.pdf
+doc/engler95exokernel.pdf:
+	$(CURL) $@ https://pdos.csail.mit.edu/6.828/2008/readings/engler95exokernel.pdf
 
 # install
 .PHONY: install update gz ref
-install: doc gz ref
+install: doc gz ref $(RUSTUP)
 	$(MAKE) update
 update:
 	sudo apt update
@@ -107,7 +125,7 @@ update:
 gz: $(ST) \
 	$(GZ)/$(LINUX_GZ) $(GZ)/$(NEWLIB_GZ)
 ref: \
-	ref/$(LINUX)/README ref/$(NEWLIB)/README
+	ref/$(LINUX)/README ref/$(NEWLIB)/README ref/syslinux/README
 
 $(GZ)/$(LINUX_GZ):
 	$(CURL) $@ $(LINUX_URL)/$(LINUX_GZ)
@@ -119,3 +137,9 @@ $(GZ)/$(STRAIL_GZ):
 
 $(GZ)/$(NEWLIB_GZ):
 	$(CURL) $@ $(NEWLIB_URL)/$(NEWLIB_GZ)
+
+ref/syslinux/README:
+	git clone --depth 1 http://repo.or.cz/syslinux.git ref/syslinux
+
+$(RUSTUP) $(CARGO):
+	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
