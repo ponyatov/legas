@@ -120,6 +120,8 @@ doc/engler95exokernel.pdf:
 install: doc gz ref $(RUSTUP)
 	$(MAKE) update
 	$(RUSTUP) component add rustfmt
+	$(RUSTUP) target add x86_64-unknown-none
+
 update:
 	sudo apt update
 	sudo apt install -uy `cat apt.txt`
