@@ -64,6 +64,7 @@ LDFLAGS  += -T lib/$(HW).ld
 # all
 OBJ  = $(subst src/,bin/,$(addsuffix .o,$(basename $(C))))
 DUMP = $(subst bin/,tmp/,$(subst .o,.objdump,$(OBJ))) tmp/$(MODULE).objdump
+OBJ  = bin/multiboot bin/$(MODULE)
 
 .PHONY: all run
 all: fw/$(MODULE).kernel $(DUMP)
@@ -80,8 +81,8 @@ qemu: bin/$(MODULE).boot rust
 
 .PHONY: rust
 rust: tmp/$(MODULE).boot.objdump tmp/multiboot.objdump tmp/kernel.objdump
-bin/$(MODULE).boot: bin/multiboot bin/$(MODULE)
-	$(LD) -T src/$(ARCH).ld -z noexecstack -o $@ $^
+bin/$(MODULE).boot: src/$(ARCH).ld $(OBJ)
+	$(LD) -T $< -z noexecstack -o $@ $(OBJ)
 
 bin/multiboot: src/multiboot.nasm
 	nasm -f elf32 -o $@ $<

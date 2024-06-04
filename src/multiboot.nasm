@@ -9,7 +9,6 @@
 extern _start
 global _start
 extern _stack
-extern _stub
 
 ; This part MUST be 4-byte aligned, so we solve that issue using 'ALIGN 4'
 ALIGN 4
