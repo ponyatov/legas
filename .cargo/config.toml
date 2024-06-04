@@ -13,4 +13,6 @@ build-std-features = ["compiler-builtins-mem"]
 target = "i686-unknown-none.json"
 
 [target.i686-unknown-none]
-# target triple
+# target triple for embedded (PC104) & tiny (Atom) & retro PCes
+[target.x86_64-unknown-none]
+# target triple for modern x86_64

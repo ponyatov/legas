@@ -78,7 +78,7 @@ st: $(ST)
 rust: tmp/$(MODULE).objdump
 bin/$(MODULE): $(CARGO) $(R)
 	clear ; $(CARGO) build --out-dir=$(dir $@) -Z unstable-options
-	grub-file --is-x86-multiboot $@
+# grub-file --is-x86-multiboot $@
 
 # format
 .PHONY: format
