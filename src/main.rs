@@ -9,14 +9,14 @@
 #![feature(lang_items)]
 #![allow(dead_code)]
 #![allow(non_upper_case_globals)]
+#![feature(const_mut_refs)]
 
 /// stack roll back
 #[lang = "eh_personality"]
 extern "C" fn eh_personality() {}
 
 use core::panic::PanicInfo;
-use core::sync::atomic;
-use core::sync::atomic::Ordering;
+use core::sync::atomic::{self, Ordering};
 
 /// panic handler
 #[inline(never)]
@@ -36,7 +36,10 @@ pub extern "C" fn _start() -> ! {
 }
 
 /// VGA hardware buffer
+const W: usize = 80;
+const H: usize = 25;
 const VGA: *mut u16 = 0xb8000 as *mut u16;
+// const VGA: *mut [u16; 2000] = 0xb8000 as *mut [u16;W*H];
 const vgarg: u16 = 0b0_001_0011 << 8;
 
 /// `Hello World!` message
@@ -49,6 +52,7 @@ pub fn hello() {
     let _v = VGA;
     for (i, &byte) in HELLO.iter().enumerate() {
         unsafe {
+            // VGA[i] = vgarg | (byte as u16);
             *VGA.offset((i as isize) << 1) = vgarg | (byte as u16);
         }
     }
