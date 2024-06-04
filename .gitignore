@@ -8,5 +8,6 @@
 *.srctrldb
 
 /target/
+/Cargo.lock
 
 !.gitignore

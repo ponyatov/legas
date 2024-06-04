@@ -132,6 +132,7 @@ install: doc gz ref $(RUSTUP)
 	$(MAKE) update
 	$(RUSTUP) component add rustfmt
 	$(RUSTUP) target add x86_64-unknown-none
+	$(CARGO) install bootimage
 
 update:
 	sudo apt update
