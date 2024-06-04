@@ -77,7 +77,8 @@ st: $(ST)
 
 .PHONY: qemu
 qemu: bin/$(MODULE).boot rust
-	echo $(QEMU) $(QEMU_CFG) $(QEMU_CPU) $(QEMU_RAM) -kernel $<
+	grub-file --is-x86-multiboot $<
+	$(QEMU) $(QEMU_CFG) -kernel $<
 
 .PHONY: rust
 rust: tmp/$(MODULE).boot.objdump tmp/multiboot.objdump tmp/kernel.objdump
@@ -88,7 +89,6 @@ bin/multiboot: src/multiboot.nasm
 	nasm -f elf32 -o $@ $<
 bin/$(MODULE): $(CARGO) $(R)
 	clear ; $(CARGO) build --out-dir=$(dir $@) -Z unstable-options
-# grub-file --is-x86-multiboot $@
 
 # format
 .PHONY: format

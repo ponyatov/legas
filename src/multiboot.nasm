@@ -10,6 +10,11 @@ extern _start
 global _start
 extern _stack
 
+global _entry
+_entry:
+    mov esp, _stack
+    jmp _stub
+
 ; This part MUST be 4-byte aligned, so we solve that issue using 'ALIGN 4'
 ALIGN 4
 section .multiboot
@@ -26,7 +31,9 @@ section .multiboot
     dd MULTIBOOT_HEADER_FLAGS
     dd MULTIBOOT_CHECKSUM
 
+ALIGN 4
 _stub:
     mov esp, _stack
+    jmp $
     call _start
     jmp $
