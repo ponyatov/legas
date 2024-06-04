@@ -1,33 +1,37 @@
 /* https://www.cs.vu.nl/~herbertb/misc/writingkernels.txt */
 
 ENTRY(_stub)
+OUTPUT(elf_i386)
+
 phys = 0x00100000;
 SECTIONS
 {
-  .text /* phys : AT(phys) { */
+  .text : /* phys : AT(phys) { */
   {
     _text = .;
     *(.multiboot*)
     *(.text*)
-    . = ALIGN(4096);
+    . = ALIGN(4K);
     _rodata = .;
     *(.rodata*)
-    . = ALIGN(4096);
+    . = ALIGN(4K);
   }
 
-  /* .data : AT(phys + (data - code)) */
-  .data {
+  .data : /* AT(phys + (data - code)) */
   {
     _data = .;
     *(.data*)
-    . = ALIGN(4096);
+    . = ALIGN(4K);
   }
-  .bss : AT(phys + (bss - code))
+  .bss : /* AT(phys + (bss - code)) */
   {
     _bss = .;
     *(.bss*)
-    . = ALIGN(4096);
+    . = ALIGN(4K);
   }
-  end = .;
+  .stack : {
   _stack = .;
+    . = ALIGN(4K);
+  }
+  _end = .;
 }

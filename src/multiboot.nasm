@@ -6,7 +6,9 @@
 ; multiboot v2
 
 [BITS 32]
-global _start
+extern _start
+extern _stack
+extern _stub
 
 ; This part MUST be 4-byte aligned, so we solve that issue using 'ALIGN 4'
 ALIGN 4
@@ -26,6 +28,5 @@ section .multiboot
 
 _stub:
     mov esp, _stack
-    extern _start
     call _start
     jmp $

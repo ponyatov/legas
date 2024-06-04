@@ -43,5 +43,8 @@
         "editor.defaultFormatter": "xaver.clang-format",
         "editor.formatOnSave":     true
     },
-    "C_Cpp.intelliSenseEngine":    "Tag Parser",
+    "C_Cpp.intelliSenseEngine": "Tag Parser",
+
+    // low-level
+    "nasm.outputFormat": "elf32",
 }
