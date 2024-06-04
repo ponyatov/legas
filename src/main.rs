@@ -31,3 +31,5 @@ fn panic(_info: &PanicInfo) -> ! {
 pub extern "C" fn _start() -> ! {
     loop {}
 }
+
+// https://os.phil-opp.com/ru/minimal-rust-kernel/
