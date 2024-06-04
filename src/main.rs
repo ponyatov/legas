@@ -8,6 +8,7 @@
 #![allow(internal_features)]
 #![feature(lang_items)]
 #![allow(dead_code)]
+#![allow(non_upper_case_globals)]
 
 /// stack roll back
 #[lang = "eh_personality"]
@@ -30,16 +31,27 @@ fn panic(_info: &PanicInfo) -> ! {
 #[no_mangle]
 // the name must be `_start`
 pub extern "C" fn _start() -> ! {
-    let _t = HELLO;
-    let _v = VGA;
+    hello();
     loop {}
 }
 
 /// VGA hardware buffer
-const VGA: *mut u8 = 0xb8000 as *mut u8;
+const VGA: *mut u16 = 0xb8000 as *mut u16;
+const vgarg: u16 = 0b0_001_0011 << 8;
 
 /// `Hello World!` message
 #[no_mangle]
 static HELLO: &[u8] = b"Hello World!";
+
+#[no_mangle]
+pub fn hello() {
+    let _t = HELLO;
+    let _v = VGA;
+    for (i, &byte) in HELLO.iter().enumerate() {
+        unsafe {
+            *VGA.offset((i as isize) << 1) = vgarg | (byte as u16);
+        }
+    }
+}
 
 // https://os.phil-opp.com/ru/minimal-rust-kernel/
