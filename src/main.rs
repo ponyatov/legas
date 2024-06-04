@@ -40,7 +40,7 @@ const W: usize = 80;
 const H: usize = 25;
 const VGA: *mut u16 = 0xb8000 as *mut u16;
 // const VGA: *mut [u16; 2000] = 0xb8000 as *mut [u16;W*H];
-const vgarg: u16 = 0b0_001_0011 << 8;
+const vgarg: u16 = 0b0_000_1_011 << 8;
 
 /// `Hello World!` message
 #[no_mangle]
