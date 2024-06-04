@@ -7,6 +7,7 @@
 #![no_main]
 #![allow(internal_features)]
 #![feature(lang_items)]
+#![allow(dead_code)]
 
 /// stack roll back
 #[lang = "eh_personality"]
@@ -29,7 +30,16 @@ fn panic(_info: &PanicInfo) -> ! {
 #[no_mangle]
 // the name must be `_start`
 pub extern "C" fn _start() -> ! {
+    let _t = HELLO;
+    let _v = VGA;
     loop {}
 }
+
+/// VGA hardware buffer
+const VGA: *mut u8 = 0xb8000 as *mut u8;
+
+/// `Hello World!` message
+#[no_mangle]
+static HELLO: &[u8] = b"Hello World!";
 
 // https://os.phil-opp.com/ru/minimal-rust-kernel/
