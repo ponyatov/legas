@@ -4,3 +4,4 @@ g++-i686-linux-gnu flex bison
 syslinux isolinux xorriso
 qemu-system-i386
 libc6-dev-x32-i386-cross
+nasm

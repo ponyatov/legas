@@ -75,7 +75,9 @@ st: $(ST)
 	$^ $(MODULE).srctrlprj &
 
 .PHONY: rust
-rust: tmp/$(MODULE).objdump
+rust: tmp/$(MODULE).objdump bin/multiboot
+bin/multiboot: src/multiboot.nasm
+	nasm -f elf -o $@ $<
 bin/$(MODULE): $(CARGO) $(R)
 	clear ; $(CARGO) build --out-dir=$(dir $@) -Z unstable-options
 # grub-file --is-x86-multiboot $@

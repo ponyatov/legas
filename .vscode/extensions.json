@@ -21,6 +21,7 @@
         "daohong-emilio.yash",
         // low-level
         "zixuanwang.linkerscript",
+        "doinkythederp.nasm-language-support",
         // Rust
         "rust-lang.rust-analyzer",
         "tamasfe.even-better-toml",
