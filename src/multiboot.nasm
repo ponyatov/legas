@@ -7,6 +7,7 @@
 
 [BITS 32]
 extern _start
+global _start
 extern _stack
 extern _stub
 

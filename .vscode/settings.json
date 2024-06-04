@@ -7,7 +7,7 @@
         { "command": "multiCommand.f12",
             "sequence": [ "workbench.action.files.saveAll",
                 { "command": "workbench.action.terminal.sendSequence",
-                    "args": {"text": "\u000D clear ; LANG=C make rust \u000D"}}]}
+                    "args": {"text": "\u000D clear ; LANG=C make qemu \u000D"}}]}
     ],
 
     // files

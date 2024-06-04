@@ -74,10 +74,14 @@ run: fw/$(MODULE).kernel $(DUMP)
 st: $(ST)
 	$^ $(MODULE).srctrlprj &
 
+.PHONY: qemu
+qemu: bin/$(MODULE).boot rust
+	echo $(QEMU) $(QEMU_CFG) $(QEMU_CPU) $(QEMU_RAM) -kernel $<
+
 .PHONY: rust
-rust: tmp/mboot.objdump tmp/multiboot.objdump tmp/kernel.objdump
-bin/mboot: bin/multiboot bin/$(MODULE)
-	$(LD) -T src/i686.ld -o $@ $^
+rust: tmp/$(MODULE).boot.objdump tmp/multiboot.objdump tmp/kernel.objdump
+bin/$(MODULE).boot: bin/multiboot bin/$(MODULE)
+	$(LD) -T src/$(ARCH).ld -z noexecstack -o $@ $^
 
 bin/multiboot: src/multiboot.nasm
 	nasm -f elf32 -o $@ $<
