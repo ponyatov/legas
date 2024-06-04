@@ -4,6 +4,8 @@ NOW    = $(shell date +%d%m%y)
 REL    = $(shell git rev-parse --short=4 HEAD)
 BRANCH = $(shell git rev-parse --abbrev-ref HEAD)
 
+TRIPLET = i686-unknown-none
+
 # config
 HW = qemu386
 include   hw/$(HW).mk
@@ -116,6 +118,12 @@ doc/libm.pdf:
 	$(CURL) $@ ftp://sourceware.org/pub/newlib/libm.pdf
 doc/engler95exokernel.pdf:
 	$(CURL) $@ https://pdos.csail.mit.edu/6.828/2008/readings/engler95exokernel.pdf
+
+.PHONY: doxy
+doxy: .doxygen
+	rm -rf docs ; doxygen $< 1>/dev/null
+	rm -rf docs/$(MODULE) ; cargo doc
+	cp -r target/$(TRIPLET)/doc docs/rust
 
 # install
 .PHONY: install update gz ref
