@@ -59,7 +59,8 @@ NEWLIB_URL = ftp://sourceware.org/pub/newlib
 # cfg
 GCCFLAGS += -nostdlib
 CFLAGS   += -Iinc -Itmp -march=$(CPU) -ffreestanding
-LDFLAGS  += -T lib/$(HW).ld
+LDSCRIPT  = lib/$(ARCH).ld
+LDFLAGS  += -T $(LDSCRIPT) -z noexecstack -n
 
 # all
 OBJ  = $(subst src/,bin/,$(addsuffix .o,$(basename $(C))))
@@ -72,9 +73,9 @@ run: fw/$(MODULE).kernel $(DUMP)
 	$(QEMU) $(QEMU_CPU) $(QEMU_RAM) $(QEMU_CFG) -kernel $<
 
 .PHONY: mb1 mb2
-mb1: bin/multiboot1 tmp/multiboot1.objdump
+mb1: bin/multiboot1 tmp/multiboot1.objdump tmp/stub.objdump
 	$(QEMU) $(QEMU_CFG) -kernel $<
-mb2: fw/$(MODULE).iso tmp/multiboot2.objdump
+mb2: fw/$(MODULE).iso tmp/multiboot2.objdump tmp/stub.objdump
 	$(QEMU) $(QEMU_CFG) -cdrom $<
 fw/$(MODULE).iso: bin/multiboot1 bin/multiboot2 bin/boot/grub/grub.cfg Makefile
 	grub-file --is-x86-multiboot  bin/multiboot1
@@ -93,8 +94,8 @@ qemu: bin/$(MODULE).boot rust
 .PHONY: rust
 rust: tmp/$(MODULE).objdump
 # tmp/$(MODULE).boot.objdump tmp/multiboot.objdump tmp/kernel.objdump
-bin/$(MODULE).boot: src/$(ARCH).ld $(OBJ)
-	$(LD) -z noexecstack -T $< -z noexecstack -o $@ $(OBJ)
+bin/$(MODULE).boot: $(LDSCRIPT) $(OBJ)
+	$(LD) $(LDFLAGS) -o $@ $(OBJ)
 
 bin/$(MODULE): $(CARGO) $(R)
 	clear ; $(CARGO) build --out-dir=$(dir $@) -Z unstable-options
@@ -108,8 +109,10 @@ tmp/format_rs: $(R)
 	$(CARGO) fmt && touch $@
 
 # rule
-bin/%: tmp/%.o src/i386.ld
-	$(LD) -n -T src/i386.ld -o $@ $<
+bin/multiboot%: tmp/multiboot%.o tmp/stub.o
+	$(LD) $(LDFLAGS) -o $@ $^
+bin/%: tmp/%.o $(LDSCRIPT)
+	$(LD) $(LDFLAGS) -o $@ $<
 tmp/%.o: src/%.nasm
 	nasm -f elf32 -o $@ $<
 

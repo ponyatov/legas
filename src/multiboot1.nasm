@@ -2,7 +2,7 @@
 
 bits 32
 
-section .multiboot2
+section .multiboot1
 
 PAGE_ALIGN	equ 1<<0
 MEMORY_INFO	equ 1<<1                                         
@@ -17,12 +17,5 @@ header_start:
     dd MB1FLAGS
     dd -CHECKSUM
 header_end:
-
-section .text
-global _stub
-extern _stack
-_stub:
-    mov esp, _stack
-    jmp $+2
-    mov dword [0xb8000], 0x2f4b2f4f
-    hlt
+    extern _stub
+    jmp _stub
