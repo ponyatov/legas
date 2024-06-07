@@ -4,15 +4,18 @@ bits 32
 
 section .multiboot2
 
-MAGIC     equ 0xE85250D6
-ARCHi386  equ 0
+PAGE_ALIGN	equ 1<<0
+MEMORY_INFO	equ 1<<1                                         
+
+MAGIC     equ 0x1BADB002
+MBFLAGS   equ (PAGE_ALIGN|MEMORY_INFO)
 HDRLENGTH equ (header_end - header_start)
-CHECKSUM  equ MAGIC + ARCHi386 + HDRLENGTH
+CHECKSUM  equ MAGIC + MBFLAGS
 
 header_start:
     dd MAGIC     ; magic number (multiboot 2)
-    dd ARCHi386  ; architecture 0 (protected mode i386)
-    dd HDRLENGTH ; header length
+    dd MBFLAGS   ; architecture 0 (protected mode i386)
+    ; dd HDRLENGTH ; header length
     ; checksum
     dd (0x100000000 - CHECKSUM)
 

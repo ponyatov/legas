@@ -71,11 +71,15 @@ all: fw/$(MODULE).kernel $(DUMP)
 run: fw/$(MODULE).kernel $(DUMP)
 	$(QEMU) $(QEMU_CPU) $(QEMU_RAM) $(QEMU_CFG) -kernel $<
 
-.PHONY: mb2
+.PHONY: mb1 mb2
+mb1: bin/multiboot1 tmp/multiboot1.objdump
+	$(QEMU) $(QEMU_CFG) -kernel $<
 mb2: fw/$(MODULE).iso tmp/multiboot2.objdump
 	$(QEMU) $(QEMU_CFG) -cdrom $<
-fw/$(MODULE).iso: bin/multiboot2 bin/grub.cfg
-	grub-mkrescue -o $@ bin
+fw/$(MODULE).iso: bin/multiboot1 bin/multiboot2 bin/boot/grub/grub.cfg Makefile
+	grub-file --is-x86-multiboot  bin/multiboot1
+	grub-file --is-x86-multiboot2 bin/multiboot2
+	rm -f $@ ; grub-mkrescue -o $@ bin
 
 .PHONY: st
 st: $(ST)
@@ -90,7 +94,7 @@ qemu: bin/$(MODULE).boot rust
 rust: tmp/$(MODULE).objdump
 # tmp/$(MODULE).boot.objdump tmp/multiboot.objdump tmp/kernel.objdump
 bin/$(MODULE).boot: src/$(ARCH).ld $(OBJ)
-	$(LD) -T $< -z noexecstack -o $@ $(OBJ)
+	$(LD) -z noexecstack -T $< -z noexecstack -o $@ $(OBJ)
 
 bin/$(MODULE): $(CARGO) $(R)
 	clear ; $(CARGO) build --out-dir=$(dir $@) -Z unstable-options
@@ -106,7 +110,6 @@ tmp/format_rs: $(R)
 # rule
 bin/%: tmp/%.o src/i386.ld
 	$(LD) -n -T src/i386.ld -o $@ $<
-	grub-file --is-x86-multiboot2 $@
 tmp/%.o: src/%.nasm
 	nasm -f elf32 -o $@ $<
 

@@ -6,34 +6,34 @@ _stack_size = 8K;
 ENTRY(_stub)
 OUTPUT(elf_i386)
 
-/* phys = 0x00100000; */
-
-. = 0x100000; /* Tells GRUB to load the kernel starting at the 1MB */
+. = 1M; /* load the kernel starting at the 1MB */
 
 SECTIONS
 {
-    .text : /* phys : AT(phys) { */
-    {
-        . = ALIGN(4K);
+    .boot : {
         _boot = .;
-            KEEP(*(.multiboot*))
+        KEEP(*(.multiboot*))
+    }
+
+    .text :
+    {
         . = ALIGN(4K);
         _text = .;
             *(.text*)
             *(.eh_frame*)
-        . = ALIGN(4K);
+        /* . = ALIGN(4K); */
         _rodata = .;
             *(.rodata*)
     }
 
-    .data : /* AT(phys + (data - code)) */
+    .data :
     {
-        . = ALIGN(4K);
+        /* . = ALIGN(4K); */
         _data = .;
             *(.data*)
     }
 
-    .bss : /* AT(phys + (bss - code)) */
+   .bss :
     {
         . = ALIGN(4K);
         _bss = .;
