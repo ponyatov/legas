@@ -7,7 +7,7 @@
         { "command": "multiCommand.f12",
             "sequence": [ "workbench.action.files.saveAll",
                 { "command": "workbench.action.terminal.sendSequence",
-                    "args": {"text": "\u000D clear ; LANG=C make mb2 \u000D"}}]}
+                    "args": {"text": "\u000D clear ; LANG=C make run \u000D"}}]}
     ],
 
     // files

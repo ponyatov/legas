@@ -4,8 +4,6 @@ NOW    = $(shell date +%d%m%y)
 REL    = $(shell git rev-parse --short=4 HEAD)
 BRANCH = $(shell git rev-parse --abbrev-ref HEAD)
 
-TRIPLET = i686-unknown-none
-
 # config
 HW = qemu386
 include   hw/$(HW).mk
@@ -40,6 +38,7 @@ CARGO  = $(CAR)/bin/cargo
 C += $(wildcard src/*.c*)
 H += $(wildcard inc/*.h*)
 R += $(wildcard src/*.rs*)
+A += $(wildcard src/*.nasm)
 
 # package
 LINUX     = linux-$(LINUX_VER)
@@ -57,47 +56,36 @@ NEWLIB_GZ  = $(NEWLIB).tar.gz
 NEWLIB_URL = ftp://sourceware.org/pub/newlib
 
 # cfg
-GCCFLAGS += -nostdlib
+CFLAGS   += -nostdlib
 CFLAGS   += -Iinc -Itmp -march=$(CPU) -ffreestanding
 LDSCRIPT  = lib/$(ARCH).ld
 LDFLAGS  += -T $(LDSCRIPT) -z noexecstack -n
 
 # all
-OBJ  = $(subst src/,bin/,$(addsuffix .o,$(basename $(C))))
-DUMP = $(subst bin/,tmp/,$(subst .o,.objdump,$(OBJ))) tmp/$(MODULE).objdump
-OBJ  = bin/multiboot bin/$(MODULE)
 
-.PHONY: all run
-all: fw/$(MODULE).kernel $(DUMP)
-run: fw/$(MODULE).kernel $(DUMP)
-	$(QEMU) $(QEMU_CPU) $(QEMU_RAM) $(QEMU_CFG) -kernel $<
+# OBJ  = $(subst src/,bin/,$(addsuffix .o,$(basename $(C))))
+# DUMP = $(subst bin/,tmp/,$(subst .o,.objdump,$(OBJ))) tmp/$(MODULE).objdump
+# OBJ  = bin/multiboot1 bin/multiboot2 bin/$(MODULE)
+OBJ += tmp/stub.o
+# $(subst src/,tmp/,$(addsuffix .o,$(basename $(A))))
 
-.PHONY: mb1 mb2
-mb1: bin/multiboot1 tmp/multiboot1.objdump tmp/stub.objdump
+.PHONY: all run qemu
+all: iso
+run qemu: bin/$(MODULE)1
 	$(QEMU) $(QEMU_CFG) -kernel $<
-mb2: fw/$(MODULE).iso tmp/multiboot2.objdump tmp/stub.objdump
+
+.PHONY: iso cdemu
+iso: fw/$(MODULE).iso
+cdemu: fw/$(MODULE).iso
 	$(QEMU) $(QEMU_CFG) -cdrom $<
-fw/$(MODULE).iso: bin/multiboot1 bin/multiboot2 bin/boot/grub/grub.cfg Makefile
-	grub-file --is-x86-multiboot  bin/multiboot1
-	grub-file --is-x86-multiboot2 bin/multiboot2
+fw/$(MODULE).iso: bin/$(MODULE)1 bin/$(MODULE)2 bin/boot/grub/grub.cfg
+	grub-file --is-x86-multiboot  bin/$(MODULE)1
+	grub-file --is-x86-multiboot2 bin/$(MODULE)2
 	rm -f $@ ; grub-mkrescue -o $@ bin
 
-.PHONY: st
-st: $(ST)
-	$^ $(MODULE).srctrlprj &
-
-.PHONY: qemu
-qemu: bin/$(MODULE).boot rust
-	grub-file --is-x86-multiboot $<
-	$(QEMU) $(QEMU_CFG) -kernel $<
-
 .PHONY: rust
-rust: tmp/$(MODULE).objdump
-# tmp/$(MODULE).boot.objdump tmp/multiboot.objdump tmp/kernel.objdump
-bin/$(MODULE).boot: $(LDSCRIPT) $(OBJ)
-	$(LD) $(LDFLAGS) -o $@ $(OBJ)
-
-bin/$(MODULE): $(CARGO) $(R)
+rust: tmp/$(MODULE)
+tmp/$(MODULE): $(CARGO) $(R)
 	clear ; $(CARGO) build --out-dir=$(dir $@) -Z unstable-options
 
 # format
@@ -109,25 +97,15 @@ tmp/format_rs: $(R)
 	$(CARGO) fmt && touch $@
 
 # rule
-bin/multiboot%: tmp/multiboot%.o tmp/stub.o
-	$(LD) $(LDFLAGS) -o $@ $^
-bin/%: tmp/%.o $(LDSCRIPT)
-	$(LD) $(LDFLAGS) -o $@ $<
+bin/$(MODULE)%: tmp/multiboot%.o $(OBJ) $(LDSCRIPT)
+	$(LD) $(LDFLAGS) -o $@ $< $(OBJ)
 tmp/%.o: src/%.nasm
 	nasm -f elf32 -o $@ $<
 
-bin/%.o: src/%.cpp $(H)
+tmp/%.o: src/%.cpp $(H)
 	$(CXX) $(CFLAGS) $(GCCFLAGS) -o $@ -c $<
-bin/%.o: src/%.c $(H)
-	$(CC)  $(CFLAGS) $(GCCFLAGS) -o $@ -c $<
-fw/$(MODULE).kernel: $(OBJ) lib/$(HW).ld
-	$(LD) $(LDFLAGS) $(GCCFLAGS) -o $@ $(OBJ)
 
-tmp/%.objdump: bin/%.o
-	$(OD) -x $< > $@
-tmp/%.objdump: bin/%
-	$(OD) -x $< > $@
-tmp/%.objdump: fw/%.kernel
+tmp/%.objdump: tmp/%.o
 	$(OD) -x $< > $@
 
 ref/%/README: $(GZ)/%.tar.xz
