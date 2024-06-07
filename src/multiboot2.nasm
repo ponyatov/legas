@@ -1,8 +1,10 @@
 ; https://os.phil-opp.com/multiboot-kernel/
 
+bits 32
+
 section .multiboot2
 
-MAGIC     equ 0xe85250d6
+MAGIC     equ 0xE85250D6
 ARCHi386  equ 0
 HDRLENGTH equ (header_end - header_start)
 CHECKSUM  equ MAGIC + ARCHi386 + HDRLENGTH
@@ -21,3 +23,9 @@ header_start:
     dw 0    ; flags
     dd 8    ; size
 header_end:
+
+section .text
+global _stub
+_stub:
+    mov dword [0xb8000], 0x2f4b2f4f
+    hlt

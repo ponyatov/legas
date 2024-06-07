@@ -102,7 +102,7 @@ tmp/format_rs: $(R)
 
 # rule
 bin/%: tmp/%.o src/i386.ld
-	$(LD) -T src/i386.ld -o $@ $<
+	$(LD) -n -T src/i386.ld -o $@ $<
 	grub-file --is-x86-multiboot2 $@
 tmp/%.o: src/%.nasm
 	nasm -f elf32 -o $@ $<
