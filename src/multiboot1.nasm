@@ -7,24 +7,15 @@ section .multiboot2
 PAGE_ALIGN	equ 1<<0
 MEMORY_INFO	equ 1<<1                                         
 
-MAGIC     equ 0x1BADB002
-MBFLAGS   equ (PAGE_ALIGN|MEMORY_INFO)
+MAGIC1    equ 0x1BADB002
+MB1FLAGS  equ (PAGE_ALIGN|MEMORY_INFO)
 HDRLENGTH equ (header_end - header_start)
-CHECKSUM  equ MAGIC + MBFLAGS
+CHECKSUM  equ (MAGIC1 + MB1FLAGS)
 
 header_start:
-    dd MAGIC     ; magic number (multiboot 2)
-    dd MBFLAGS   ; architecture 0 (protected mode i386)
-    ; dd HDRLENGTH ; header length
-    ; checksum
-    dd (0x100000000 - CHECKSUM)
-
-    ; insert optional multiboot tags here
-
-    ; required end tag
-    dw 0    ; type
-    dw 0    ; flags
-    dd 8    ; size
+    dd MAGIC1
+    dd MB1FLAGS
+    dd -CHECKSUM
 header_end:
 
 section .text
