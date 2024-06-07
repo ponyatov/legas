@@ -5,3 +5,4 @@ syslinux isolinux xorriso
 qemu-system-i386
 libc6-dev-x32-i386-cross
 nasm
+xorriso

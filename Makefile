@@ -72,7 +72,10 @@ run: fw/$(MODULE).kernel $(DUMP)
 	$(QEMU) $(QEMU_CPU) $(QEMU_RAM) $(QEMU_CFG) -kernel $<
 
 .PHONY: mb2
-mb2: tmp/multiboot2.objdump
+mb2: fw/$(MODULE).iso tmp/multiboot2.objdump
+	$(QEMU) $(QEMU_CFG) -cdrom $<
+fw/$(MODULE).iso: bin/multiboot2 bin/grub.cfg
+	grub-mkrescue -o $@ bin
 
 .PHONY: st
 st: $(ST)
