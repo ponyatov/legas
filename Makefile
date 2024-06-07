@@ -71,6 +71,9 @@ all: fw/$(MODULE).kernel $(DUMP)
 run: fw/$(MODULE).kernel $(DUMP)
 	$(QEMU) $(QEMU_CPU) $(QEMU_RAM) $(QEMU_CFG) -kernel $<
 
+.PHONY: mb2
+mb2: tmp/multiboot2.objdump
+
 .PHONY: st
 st: $(ST)
 	$^ $(MODULE).srctrlprj &
@@ -81,12 +84,11 @@ qemu: bin/$(MODULE).boot rust
 	$(QEMU) $(QEMU_CFG) -kernel $<
 
 .PHONY: rust
-rust: tmp/$(MODULE).boot.objdump tmp/multiboot.objdump tmp/kernel.objdump
+rust: tmp/$(MODULE).objdump
+# tmp/$(MODULE).boot.objdump tmp/multiboot.objdump tmp/kernel.objdump
 bin/$(MODULE).boot: src/$(ARCH).ld $(OBJ)
 	$(LD) -T $< -z noexecstack -o $@ $(OBJ)
 
-bin/multiboot: src/multiboot.nasm
-	nasm -f elf32 -o $@ $<
 bin/$(MODULE): $(CARGO) $(R)
 	clear ; $(CARGO) build --out-dir=$(dir $@) -Z unstable-options
 
@@ -99,6 +101,9 @@ tmp/format_rs: $(R)
 	$(CARGO) fmt && touch $@
 
 # rule
+bin/%: src/%.nasm
+	nasm -f elf32 -o $@ $<
+
 bin/%.o: src/%.cpp $(H)
 	$(CXX) $(CFLAGS) $(GCCFLAGS) -o $@ -c $<
 bin/%.o: src/%.c $(H)
@@ -149,7 +154,8 @@ update:
 gz: $(ST) \
 	$(GZ)/$(LINUX_GZ) $(GZ)/$(NEWLIB_GZ)
 ref: \
-	ref/$(LINUX)/README ref/$(NEWLIB)/README ref/syslinux/README
+	ref/$(LINUX)/README ref/$(NEWLIB)/README ref/syslinux/README \
+	ref/multiboot/README.md
 
 $(GZ)/$(LINUX_GZ):
 	$(CURL) $@ $(LINUX_URL)/$(LINUX_GZ)
@@ -164,6 +170,9 @@ $(GZ)/$(NEWLIB_GZ):
 
 ref/syslinux/README:
 	git clone --depth 1 http://repo.or.cz/syslinux.git ref/syslinux
+
+ref/multiboot/README.md:
+	git clone --depth 1 https://github.com/gz/rust-multiboot.git ref/multiboot
 
 $(RUSTUP) $(CARGO):
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
