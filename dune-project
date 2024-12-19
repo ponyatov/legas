@@ -10,6 +10,6 @@
  (documentation  https://url/to/documentation)
  (synopsis      "legacy software analysis")
  (description   "legacy software analysis")
- (depends        ocaml core dune utop ocamlformat)
+ (depends        ocaml core dune utop ocamlformat batteries)
  (tags
   (legacy compiler "source code")))

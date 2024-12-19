@@ -1,2 +1,9 @@
+(executable
+ (public_name legas)
+ (name main)
+ (modules main)
+ (libraries legas))
+
 (library
- (name legas))
+ (name legas)
+ (modules legas))
