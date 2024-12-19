@@ -11,8 +11,10 @@ doc: "https://url/to/documentation"
 bug-reports: "https://github.com/ponyatov/legas/issues"
 depends: [
   "ocaml"
-  "dune" {>= "3.16"}
-  "ocamlfmt"
+  "core"
+  "dune" {>= "3.11"}
+  "utop"
+  "ocamlformat"
   "odoc" {with-doc}
 ]
 build: [
