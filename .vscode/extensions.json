@@ -23,7 +23,7 @@
         // "rreverser.ragel",
         // embedded
         "zixuanwang.linkerscript",
-        // ARM
+        // CortexM
         "dan-c-underwood.arm",
         // Python
         "ms-python.python",
