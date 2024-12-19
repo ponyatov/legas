@@ -1,0 +1,9 @@
+*~
+*.swp
+*.log
+*.exe
+*.o
+/docs/
+/target/
+_build/
+!.gitignore

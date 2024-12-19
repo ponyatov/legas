@@ -1,0 +1,34 @@
+{
+    "recommendations": [
+        "stkb.rewrap",
+        "ryuta46.multi-command",
+        "tabnine.tabnine-vscode",
+        "ms-vscode.makefile-tools",
+        // Linux
+        "ms-vscode-remote.remote-ssh",
+        "coolbear.systemd-unit-file",
+        // formatters
+        "xaver.clang-format",
+        "foxundermoon.shell-format",
+        // misc
+        "usernamehw.errorlens",
+        // "hbenl.vscode-test-explorer",
+        // C++
+        "ms-vscode.cpptools",
+        "jeff-hykin.better-cpp-syntax",
+        "ms-vscode.cmake-tools",
+        "twxs.cmake",
+        // parser
+        // "daohong-emilio.yash",
+        // "rreverser.ragel",
+        // embedded
+        "zixuanwang.linkerscript",
+        // ARM
+        "dan-c-underwood.arm",
+        // Python
+        "ms-python.python",
+        "ms-python.autopep8",
+        // OCaml
+        "ocamllabs.ocaml-platform",
+    ]
+}

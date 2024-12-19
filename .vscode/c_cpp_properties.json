@@ -1,0 +1,22 @@
+{
+    "version": 4,
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/inc/**",
+                "${workspaceFolder}/tmp/**",
+                "${workspaceFolder}/src/**",
+            ],
+            "forcedInclude": [
+            ],
+            "defines": [
+                "STM32F407"
+            ],
+            "cStandard": "gnu11",
+            "cppStandard": "gnu++17",
+            "intelliSenseMode": "gcc-x64",
+            "compilerPath": "/usr/bin/g++"
+        }
+    ]
+}
