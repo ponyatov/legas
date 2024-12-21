@@ -6,7 +6,7 @@
             "includePath": [
                 "${workspaceFolder}/inc/**",
                 "${workspaceFolder}/tmp/**",
-                "${workspaceFolder}/src/**",
+                "${workspaceFolder}/src/**"
             ],
             "forcedInclude": [
             ],
