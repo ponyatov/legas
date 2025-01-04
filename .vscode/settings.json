@@ -55,7 +55,7 @@
 
     // JavaScript
     "[javascript]": {
-        "editor.defaultFormatter": "xaver.clang-format",
+        "editor.defaultFormatter": "numso.prettier-standard-vscode",
         "editor.formatOnSave":     false
     },
 
