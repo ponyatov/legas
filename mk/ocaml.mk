@@ -13,4 +13,4 @@ $(OCAMLC): $(OPAM)
 	opam switch create $(OCAML_VER) && touch $@
 $(OPAM):
 	bash -c "sh <(curl -fsSL https://opam.ocaml.org/install.sh)"
-	opam init
+	opam init -v

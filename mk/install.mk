@@ -1,5 +1,5 @@
 .PHONY : install update ref gz
-install: $(WS)_install doc gz ref
+install: $(WS)_install doc gz ref ocaml
 	$(MAKE) update
 update : $(WS)_update
 ref    : $(REF)

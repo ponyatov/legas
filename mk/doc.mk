@@ -16,3 +16,7 @@ doc/compiler/Nguyen_OCaml_LLVM.pdf:
 REF += doc/compiler/Sestoft_PLC.pdf
 doc/compiler/Sestoft_PLC.pdf:
 	$(CURL) $@ http://ijevanlib.ysu.am/wp-content/uploads/2017/12/plcsd-1-2.pdf
+
+REF += doc/OCaml/Minsky_Madhavapeddy_Hickey_ru.pdf
+doc/OCaml/Minsky_Madhavapeddy_Hickey_ru.pdf:
+	$(CURL) $@ http://khizha.dp.ua/library/Minsky_Madhavapeddy_Hickey_-_Real_World_OCaml_-_2013_ru.pdf

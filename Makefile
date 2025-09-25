@@ -11,6 +11,6 @@ include mk/rule.mk
 include mk/doc.mk
 include mk/ref.mk
 include mk/gz.mk
+include mk/ocaml.mk
 include mk/install.mk
 include mk/ai.mk
-include mk/ocaml.mk
