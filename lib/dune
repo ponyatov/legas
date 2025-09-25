@@ -2,8 +2,4 @@
  (public_name legas)
  (name main)
  (modules main)
- (libraries legas))
-
-(library
- (name legas)
- (modules legas))
+)
