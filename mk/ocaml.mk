@@ -1,10 +1,10 @@
-ocaml: $(UTOP)
-$(UTOP): $(OCAMLC)
-	opam install -y utop
+ocaml: $(UTOP) $(DUNE)
+$(UTOP): $(OPAM) $(OCAMLC)
+	$< install -y utop && touch $@
+$(DUNE): $(OPAM) $(OCAMLC)
+	$< install -y dune && touch $@
 $(OCAMLC): $(OPAM)
-	opam switch create 5.3.0
+	$< switch create $(OCAML_VER) && touch $@
 $(OPAM):
-	sudo apt install -yt opam dune
-	opam init
-# 	opam switch create $(OCAML_VER)
-# 	bash -c "sh <(curl -fsSL https://opam.ocaml.org/install.sh)"
+	bash -c "sh <(curl -fsSL https://opam.ocaml.org/install.sh)"
+	$@ init
