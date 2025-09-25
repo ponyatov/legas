@@ -2,4 +2,5 @@
 *.swp
 *.log
 target/
+_build/
 !.gitignore

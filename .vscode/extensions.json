@@ -31,6 +31,8 @@
         "ionide.ionide-fsharp",
         "redhat.vscode-xml",
         "mnxn.fsharp-fsl-fsy",
+        // OCaml
+        "ocamllabs.ocaml-platform",
         // LLVM
         "rreverser.llvm",
         "revng.llvm-ir",
