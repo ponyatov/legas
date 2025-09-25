@@ -4,14 +4,17 @@
 
 %defines %union { char c; std::string* s; int n; float f; }
 
-%token<n> INT
-%token<f> NUM
+%token<n>  INT
+%token<f>  NUM
+%token     COLON
+%token<s>  ID
 
 %%
 syntax: | syntax ex
 
-ex: NUM     { fprintf(stderr,"num:%e\n",$1); }
-  | INT     { fprintf(stderr,"int:%i\n",$1); }
+ex: NUM      { fprintf(stderr,"\tnum:%e\n",$1); }
+  | INT      { fprintf(stderr,"\tint:%i\n",$1); }
+  | COLON ID { fprintf(stderr,"\t   :%s\n",$2->c_str()); }
 
 %%
 void yyerror(const char *msg) {
