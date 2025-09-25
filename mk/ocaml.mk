@@ -10,7 +10,7 @@ $(OLSP): $(OPAM) $(OCAMLC)
 	opam install -y ocaml-lsp-server && touch $@
 
 $(OCAMLC): $(OPAM)
-	$< switch create $(OCAML_VER) && touch $@
+	opam switch create $(OCAML_VER) && touch $@
 $(OPAM):
 	bash -c "sh <(curl -fsSL https://opam.ocaml.org/install.sh)"
-	$@ init
+	opam init
