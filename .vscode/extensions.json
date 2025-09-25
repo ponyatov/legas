@@ -1,34 +1,41 @@
 {
     "recommendations": [
         "stkb.rewrap",
-        "ryuta46.multi-command",
-        "tabnine.tabnine-vscode",
         "ms-vscode.makefile-tools",
-        // Linux
-        "ms-vscode-remote.remote-ssh",
-        "coolbear.systemd-unit-file",
+        "IBM.output-colorizer",
+        "usernamehw.errorlens",
+        // GPT
+        "AmazonWebServices.aws-toolkit-vscode",
+        "jebbs.plantuml",
+        "bierner.markdown-mermaid",
         // formatters
         "xaver.clang-format",
+        "esbenp.prettier-vscode",
         "foxundermoon.shell-format",
-        // misc
-        "usernamehw.errorlens",
-        // "hbenl.vscode-test-explorer",
         // C++
         "ms-vscode.cpptools",
         "jeff-hykin.better-cpp-syntax",
         "ms-vscode.cmake-tools",
-        "twxs.cmake",
         // parser
-        // "daohong-emilio.yash",
-        // "rreverser.ragel",
+        "daohong-emilio.yash",
+        "rreverser.ragel",
         // embedded
-        "zixuanwang.linkerscript",
-        // CortexM
         "dan-c-underwood.arm",
+        "zixuanwang.linkerscript",
+        "ms-vscode.vscode-serial-monitor",
+        // "espressif.esp-idf-extension",
         // Python
         "ms-python.python",
         "ms-python.autopep8",
-        // OCaml
-        "ocamllabs.ocaml-platform",
+        // F#
+        "ionide.ionide-fsharp",
+        "redhat.vscode-xml",
+        "mnxn.fsharp-fsl-fsy",
+        // LLVM
+        "rreverser.llvm",
+        "revng.llvm-ir",
+        // share
+        "ms-vsliveshare.vsliveshare",
+        "lostintangent.vsls-whiteboard",
     ]
 }
