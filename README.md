@@ -5,7 +5,7 @@
 
 github: https://github.com/ponyatov/legas
 
-- interactive legacy software analysis
+- interactive legacy software analysis and reverse engineering
 - semantic & data models recovery based on legacy code
 - source-to-source translation
 - DSL compiler construction
