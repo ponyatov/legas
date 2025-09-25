@@ -36,7 +36,6 @@
             "name"            : "win32",
             "inherits"        : "pc",
             "displayName"     : "i686-w64-mingw32",
-            "description"     : "mingw/32",
             "toolchainFile"   : "${sourceDir}/cmake/i686-w64-mingw32.cmake",
             "cacheVariables"  : {"ARCH":"i386", "OS":"win32"}
         },
