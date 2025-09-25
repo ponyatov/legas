@@ -9,3 +9,4 @@ OCAMLC = $(ODIR)/ocamlc
 UTOP   = $(ODIR)/utop
 DUNE   = $(ODIR)/dune
 OFMT   = $(ODIR)/ocamlformat
+OLSP   = $(ODIR)/ocamllsp
