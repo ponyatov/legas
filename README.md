@@ -9,3 +9,5 @@ github: https://github.com/ponyatov/legas
 - semantic & data models recovery based on legacy code
 - source-to-source translation
 - DSL compiler construction
+- target platform: IIoT-like distributed heterogeneous meshes
+  built of nodes with embedded Linux and MCU devices (CortexM, ESP, RiscV)
