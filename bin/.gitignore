@@ -1,2 +1,4 @@
 *
+!dune
+!*.ml
 !.gitignore

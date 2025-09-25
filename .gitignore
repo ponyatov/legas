@@ -1,10 +1,6 @@
 *~
 *.swp
 *.log
-*.exe
-*.o
-/docs/
-/target/
-/_build/
-/.ocamlformat
+target/
+_build/
 !.gitignore
