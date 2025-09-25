@@ -2,4 +2,4 @@ git make curl fzf
 code meld doxygen clang-format
 build-essential pkg-config cmake g++ gdb
 flex bison ragel libreadline-dev
-opam ocaml dune utop
+opam dune
