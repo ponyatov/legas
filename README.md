@@ -1,6 +1,11 @@
-# `legas`
-## legacy software analysis
+# ![](doc/logo.png) `legas` 0.0.1
+## Legacy Software Analysis Toolset
 
-(c) Dmitry Ponyatov <<dponyatov@gmail.com>> 2022 MIT
+(c) Dmitry Ponyatov <<dponyatov@gmail.com>> 2025 MIT
 
 github: https://github.com/ponyatov/legas
+
+- interactive legacy software analysis
+- semantic & data models recovery based on legacy code
+- source-to-source translation
+- DSL compiler construction
