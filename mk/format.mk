@@ -1,5 +1,5 @@
 .PHONY: format
-format: tmp/format_cpp tmp/format_py tmp/format_fsh
+format: tmp/format_cpp tmp/format_ml
 
 tmp/format_cpp: $(C) $(H)
 	$(CF) $? && touch $@
@@ -7,5 +7,5 @@ tmp/format_cpp: $(C) $(H)
 tmp/format_py: $(P)
 	$(PEP) $? && touch $@
 
-tmp/format_fsh: $(F)
-	dotnet fantomas --force $? && touch $@
+tmp/format_ml: $(O) .ocamlformat
+	$(OFMT) -i $(O) && touch $@

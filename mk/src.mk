@@ -16,3 +16,6 @@ P += $(wildcard src/*.py) $(wildcard lib/*.py)
 
 # F#
 F += $(wildcard lib/*.fs*)
+
+# OCaml
+O += $(wildcard bin/*.ml* lib/*.ml* test/*.ml*)

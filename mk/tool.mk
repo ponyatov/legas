@@ -8,3 +8,4 @@ OPAM   = /usr/local/bin/opam
 OCAMLC = $(ODIR)/ocamlc
 UTOP   = $(ODIR)/utop
 DUNE   = $(ODIR)/dune
+OFMT   = $(ODIR)/ocamlformat

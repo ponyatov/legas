@@ -1,8 +1,12 @@
-ocaml: $(UTOP) $(DUNE)
+ocaml: $(UTOP) $(DUNE) $(OFMT)
+
 $(UTOP): $(OPAM) $(OCAMLC)
-	$< install -y utop && touch $@
+	opam install -y utop && touch $@
 $(DUNE): $(OPAM) $(OCAMLC)
-	$< install -y dune && touch $@
+	opam install -y dune && touch $@
+$(OFMT): $(OPAM) $(OCAMLC)
+	opam install -y ocamlformat && touch $@
+
 $(OCAMLC): $(OPAM)
 	$< switch create $(OCAML_VER) && touch $@
 $(OPAM):
