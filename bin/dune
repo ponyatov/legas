@@ -1,4 +1,4 @@
 (executable
- (public_name legas)
  (name main)
+ (public_name legas)
  (libraries legas))
