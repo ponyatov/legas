@@ -1,6 +1,6 @@
 PROJECT_NAME           = "legas"
 PROJECT_BRIEF          = "Legacy Software Analysis Toolset"
-PROJECT_LOGO           = vscode/logo.png
+PROJECT_LOGO           = doc/logo.png
 LAYOUT_FILE            = doc/DoxygenLayout.xml
 OUTPUT_DIRECTORY       = doc
 HTML_OUTPUT            = html
