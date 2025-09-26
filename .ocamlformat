@@ -9,3 +9,5 @@ break-string-literals=never
 # break-infix = fit-or-vertical
 # break-separators = after
 # let-and = sparse
+break-cases = all
+break-separators = before
