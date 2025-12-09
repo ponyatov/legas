@@ -1,13 +1,13 @@
 let app = Sys.getcwd () |> String.split_on_char '/' |> List.rev |> List.hd
-let title = "cppzmq + pcpp (DPDK)"
+let title = "zmq: cppzmq + pcpp (DPDK)"
 let about = ""
 let author = "Dmitry Ponyatov"
 let email = "dponyatov@gmail.com"
 let year = 2025
 let license = "MIT"
 let github = "github: https://github.com/ponyatov/" ^ app
-let orig = "https://github.com/zeromq/cppzmq"
-let tag = "zmq";;
+let orig = "https://github.com/seladb/PcapPlusPlus.git"
+let version = "v25.05";;
 
 let user = "dponyatov"
 let devserver = "10.120.100.39"
