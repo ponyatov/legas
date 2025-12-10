@@ -16,16 +16,10 @@ let devserver = "10.120.100.39"
 let devuser = "dev01"
 
 #use "legas/files.ml"
-dirs();
-bins();
-giti();
-apt();
-readme();
-ini();
-dotfiles();
+files();
 
 #use "legas/ocaml.ml"
-ocaml();dune();
+ocaml();
 
 #use "legas/doc.ml"
 doc();

@@ -33,7 +33,7 @@ code meld doxygen
 g++ cmake pkg-config clang-format
 gdb gdbserver valgrind
 flex bison ragel libreadline-dev
-"
+" ()
     (* () touch "apt.Ubuntu"
     ~c:
       "git make curl fzf
@@ -60,3 +60,12 @@ let ini() =
 let dotfiles () =
   Sys.command "cp ~/em/.clang-format ./" |> ignore;
   Sys.command "cp ~/em/.prettierrc ./" |> ignore
+
+let files () =
+  dirs();
+  bins();
+  giti();
+  apt();
+  readme();
+  ini();
+  dotfiles();

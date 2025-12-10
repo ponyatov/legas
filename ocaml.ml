@@ -1,4 +1,4 @@
-let ocaml () =
+let ocamldots () =
   touch ".ocamlinit"
     ~c:"#use \"topfind\";;
 #require \"unix\";;
@@ -31,10 +31,11 @@ break-string-literals=never
 let dune () =
   touch "lib/dune"
     ~c:("(library
-  (name "^app^")
+  (name " ^ app ^ ")
   (modules)
   (libraries ppx_string))
-") ();
+")
+    ();
   let lang = "(lang dune           3.20)\n" in
   let name = "(name                " ^ app ^ ")\n" in
   let opam = "(generate_opam_files true)\n" in
@@ -54,3 +55,7 @@ let dune () =
      ^ " " ^ name ^ syno ^ about ^ empty ^ ")\n")
     ();
   Sys.command "dune build"
+
+let ocaml () =
+  ocamldots ();
+  dune ()
