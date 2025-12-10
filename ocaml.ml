@@ -46,7 +46,7 @@ let dune () =
   let src = "(source              (github ponyatov/" ^ app ^ "))\n" in
   let pack = "(package\n" in
   let syno = " (synopsis            \"" ^ title ^ "\")\n" in
-  let about = "(description \"" ^ about ^ "\")\n" in
+  let about = "(description         \"\")\n" in
   let empty = "(allow_empty)\n" in
   touch "dune-project"
     ~c:

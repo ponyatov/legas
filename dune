@@ -1,4 +1,4 @@
 (library
   (name icad)
-  (modules c)
+  (modules)
   (libraries ppx_string))
