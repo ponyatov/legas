@@ -1,35 +1,45 @@
 (* minimal C translator / code generator *)
 
-(** headers/declarations collection *)
+(** headers/declarations collection: inc/legas.h *)
 let h = []
 
-(** generated code (method's implementation etc )*)
+(** generated code (method's implementation etc ): src/legas.c *)
 let c = []
 
 (** scalar/primitive types *)
-type scalar = 
-(** 32-bit signed int *)
-| Int of int 
-(** 32-bit single precision floatign point *)
-| Float of float
-(** C boolean *)
-| Bool of bool
-(** UCS-2 char:  *)
-| Char of char
-(** single byte: uint8_t *)
-| Byte of char
+type _ scalar =
+  (** 32-bit signed int *)
+  | Int : int -> int scalar
+  (** 32-bit single precision floating point *)
+  | Float : float -> float scalar
+  (** C boolean *)
+  | Bool : bool -> bool scalar
+  (** ASCII char *)
+  | Char : char -> char scalar
+  (** single byte: uint8_t *)
+  | Byte : char -> char scalar
 
-and
-(** data containers = composite / compound data types *)
-type compos = Array of scalar | Struct of var list
+(** composite / compound data types *)
+type compos = 
+  (** char* *)
+  | Str of string
 
-and 
 (** any data type *)
-type datatype = Scalar of scalar | Compos of compos
+type datatype = 
+  | Scalar of scalar 
+  | Compos of compos
+  (** array[] *)
+  | Array of datatype list
 
-and
 (** variable *)
 type var = { name : string; typ : datatype }
 
-and 
+let argc = { name = "argc"; typ = Scalar (Int 2) }
+let argv = { 
+  name = "argv"; 
+  typ = Array [Compos (Str "bin/legas"); Compos (Str "lib/legas.ini")]
+}
+
 type fn = { name : string; args : var list; ret : datatype }
+
+let main = { name="main"; args=[];ret=Scalar(Int 0)}

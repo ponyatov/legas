@@ -52,3 +52,7 @@ let readme () =
      ^ " <<" ^ email ^ ">> " ^ Int.to_string year ^ " " ^ license ^ "\n\n"
      ^ github ^ "\n" ^ about)
     ()
+
+  let ini() =
+    mkd "lib" ();
+    touch ("lib/"^app^".ini") ~c:"# line comment\n" ()
