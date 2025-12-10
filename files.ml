@@ -1,4 +1,4 @@
-open Unix
+(* open Unix *)
 
 let touch name ?(c = "") () =
   (* if not (Sys.file_exists name) then *)
@@ -11,7 +11,7 @@ let mkd name ?(c = "!.gitignore\n") () =
   touch (Filename.concat name ".gitignore") ~c ()
 
 let dirs () =
-  [ ".vscode"; "lib"; "inc"; "src" ] |> List.iter (fun d -> mkd d ())
+  [ ".vscode"; "lib"; "src" ] |> List.iter (fun d -> mkd d ())
 
 let bins () =
   [ "bin"; "tmp"; "ref" ] |> List.iter (fun d -> mkd d ~c:"*\n!.gitignore\n" ())
@@ -34,7 +34,7 @@ g++ cmake pkg-config clang-format
 gdb gdbserver valgrind
 flex bison ragel libreadline-dev
 "
-    () touch "apt.Ubuntu"
+    (* () touch "apt.Ubuntu"
     ~c:
       "git make curl fzf
 doxygen
@@ -42,7 +42,7 @@ g++ cmake pkg-config clang-format
 gdb gdbserver valgrind
 flex bison ragel libreadline-dev
 "
-    ()
+    () *)
 
 let readme () =
   (* *)
