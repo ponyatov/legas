@@ -1,4 +1,5 @@
 let hpp () = 
+  mkd "inc" ();
   touch ("inc/app.hpp") ~c:"#pragma once
 
 #include <iostream>
@@ -10,6 +11,7 @@ extern int loop();
 " ();
 
 let cpp () =
+  mkd "src" ();
   touch
     ("src/main.cpp")
     ~c:("#include \"app.hpp\"

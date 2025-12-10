@@ -1,12 +1,13 @@
 let app = Sys.getcwd () |> String.split_on_char '/' |> List.rev |> List.hd
-let version = "0.0.1";;
 let title = "zmq: cppzmq + pcpp (DPDK)"
 let about = ""
 let author = "Dmitry Ponyatov"
 let email = "dponyatov@gmail.com"
 let year = 2025
+let version = "0.0.1"
 let license = "MIT"
 let github = "github: https://github.com/ponyatov/" ^ app
+
 let orig = "https://github.com/seladb/PcapPlusPlus.git"
 let tag = "v25.05";;
 
@@ -15,21 +16,30 @@ let devserver = "10.120.100.39"
 let devuser = "dev01"
 
 #use "legas/files.ml"
-
-dirs();;
-bins();;
-giti();;
-apt();;
-readme();;
+dirs();bins();giti();apt();readme();
 
 #use "legas/ocaml.ml"
-ocaml();;
+ocaml();dune();
 
 #use "legas/doc.ml"
 doc();
 
-#use "legas/mk.ml";;
-mk();;
+#use "legas/mk.ml"
+mk();
+
+let dotfiles () =
+  Sys.command "cp ~/em/.clang-format ./" |> ignore;
+  Sys.command "cp ~/em/.prettierrc ./" |> ignore
+
+#use "legas/cpp.ml"
+hpp();cpp();init();
+
+#use "legas/cmake.ml"
+
+#use "legas/rust.ml"
+main();cargo();
+
+(********************)
 
 #use "legas/git.ml";;
 git();;
@@ -63,11 +73,4 @@ refiles gitref
    skip dirs: .git *)
 ;;
 
-let dotfiles () =
-  Sys.command "cp ~/em/.clang-format ./" |> ignore;
-  Sys.command "cp ~/em/.prettierrc ./" |> ignore
 
-#use "legas/cpp.ml"
-hpp();cpp();init();
-
-#use "legas/cmake.ml"
