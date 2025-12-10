@@ -1,4 +1,4 @@
 (library
-  (name legas)
-  (modules dummy files doc)
+  (name icad)
+  (modules)
   (libraries ppx_string))

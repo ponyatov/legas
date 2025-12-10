@@ -29,12 +29,12 @@ break-string-literals=never
     ()
 
 let dune () =
-  touch "legas/dune"
-    ~c:"(library
-  (name legas)
-  (modules dummy)
+  touch "lib/dune"
+    ~c:("(library
+  (name "^app^")
+  (modules)
   (libraries ppx_string))
-" ();
+") ();
   let lang = "(lang dune           3.20)\n" in
   let name = "(name                " ^ app ^ ")\n" in
   let opam = "(generate_opam_files true)\n" in

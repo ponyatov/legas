@@ -1,4 +1,4 @@
-open Unix
+(* open Unix *)
 
 let touch name ?(c = "") () =
   (* if not (Sys.file_exists name) then *)
