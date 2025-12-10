@@ -16,7 +16,13 @@ let devserver = "10.120.100.39"
 let devuser = "dev01"
 
 #use "legas/files.ml"
-dirs();bins();giti();apt();readme();
+dirs();
+bins();
+giti();
+apt();
+readme();
+ini();
+dotfiles();
 
 #use "legas/ocaml.ml"
 ocaml();dune();
@@ -27,9 +33,8 @@ doc();
 #use "legas/mk.ml"
 mk();
 
-let dotfiles () =
-  Sys.command "cp ~/em/.clang-format ./" |> ignore;
-  Sys.command "cp ~/em/.prettierrc ./" |> ignore
+#use "legas/vscode.ml"
+vscode()
 
 #use "legas/cpp.ml"
 hpp();cpp();init();

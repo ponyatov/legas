@@ -28,6 +28,3 @@ void arg(int argc, char* argv) {  //
 }
 ")
     ();;
-
-let ini() =   
-  touch     ("lib/" ^ app ^ ".ini") ~c:"# line comment\n" ()

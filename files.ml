@@ -53,6 +53,10 @@ let readme () =
      ^ github ^ "\n" ^ about)
     ()
 
-  let ini() =
+let ini() =
     mkd "lib" ();
     touch ("lib/"^app^".ini") ~c:"# line comment\n" ()
+
+let dotfiles () =
+  Sys.command "cp ~/em/.clang-format ./" |> ignore;
+  Sys.command "cp ~/em/.prettierrc ./" |> ignore
