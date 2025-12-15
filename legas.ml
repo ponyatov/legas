@@ -1,12 +1,15 @@
 let app = Sys.getcwd () |> String.split_on_char '/' |> List.rev |> List.hd
-let title = "zmq: cppzmq + pcpp (DPDK)"
-let about = ""
+let title = "Rust/DPDK"
+let about = "high-speed traffic generator"
 let author = "Dmitry Ponyatov"
 let email = "dponyatov@gmail.com"
 let year = 2025
 let version = "0.0.1"
 let license = "MIT"
 let github = "github: https://github.com/ponyatov/" ^ app
+
+#use "legas/files.ml"
+lib();
 
 let orig = "https://github.com/seladb/PcapPlusPlus.git"
 let tag = "v25.05";;
@@ -15,7 +18,6 @@ let user = "dponyatov"
 let devserver = "10.120.100.39"
 let devuser = "dev01"
 
-#use "legas/files.ml"
 files();
 
 #use "legas/ocaml.ml"

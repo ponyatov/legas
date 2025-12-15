@@ -1,4 +1,4 @@
-open Unix
+(* open Unix *)
 
 let touch name ?(c = "") () =
   (* if not (Sys.file_exists name) then *)
@@ -9,6 +9,11 @@ let touch name ?(c = "") () =
 let mkd name ?(c = "!.gitignore\n") () =
   if not (Sys.file_exists name) then Sys.mkdir name 0o755;
   touch (Filename.concat name ".gitignore") ~c ()
+
+let lib () =
+  mkd "lib";
+  Sys.command "cp legas/legas.ml lib/legas.ml";
+  Sys.command "code lib/legas.ml"
 
 let dirs () =
   [ ".vscode"; "lib"; "src" ] |> List.iter (fun d -> mkd d ())
